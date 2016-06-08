@@ -46,7 +46,7 @@ Function Name  | Description
 `addIceCandidate`  | The failure occurred in addIceCandidate function.
 `iceConnectionFailure`  | Ice connection failure detected by the application.
 `signalingError`  | Signaling related errors in the application.
-`applicationError`  | Application related errors, this failure is not considered as failure, this can be used for submitting logs.
+`applicationError`  | Application related errors are not considered as a failure, this can be used for submitting logs.
 
 
 ## csError Types
