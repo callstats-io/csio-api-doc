@@ -124,17 +124,24 @@ Congratulations! You have now completed the basic integration steps, read more f
 ## Step 5: (OPTIONAL) sendFabricEvent()
 
 ```javascript
+// send fabricEvent: videoPause 
 callStats.sendFabricEvent(pcObject, callStats.fabricEvent.videoPause, conferenceID);
 
-var devices = [];
-var device= {
-  "deviceId":"default","kind":"videoinput","label":"FaceTime HD Camera","groupId":"2004946474"
-}
-devices.push(device);
+// devices are returned by the 
+/*
+var devices = navigator.mediaDevices.getUserMedia({
+  audio: true,
+  video: true
+});
+//a typical device looks like:
+//device= {  "deviceId":"default","kind":"videoinput","label":"FaceTime HD Camera","groupId":"2004946474"}
+*/
+
 var eventData = {
   deviceList: devices // array of active device
 };
 
+// send fabricEvent: activeDeviceList
 callStats.sendFabricEvent(pcObject, callStats.fabricEvent.activeDeviceList, conferenceID, eventData);
 ```
 
@@ -171,7 +178,19 @@ Send the appropriate `fabricEvent` via `sendFabricEvent()`.
   callstats.io will summarize
   and aggregate the summary statistics _30 seconds_ after the last measurement
   for a conference is received.
+  
+- send `fabricHoldz` or `fabricResume` whenever the user holds and unholds the call.
+  This is usually done when a user gets multiple incoming conference calls, and has 
+  to stop transmitting (hold) on one conference call to transmit on the other, and 
+  then returns to earlier call to resume transmitting (unhold).
 
+- send `dominantSpeaker` when a particular userID appears to be the only participant 
+  speaking. Typically, each endpoint calculates the dominant speaker over the set of
+  participants in a sliding time-window (say, 10 seconds). Then the endpoint that 
+  notices that it is the dominant speaker sends the event.
+  
+- send `activeDeviceList` whenever the audio input, audio output, or video input 
+  device changes.
 
 ## Step 6: (OPTIONAL) associateMstWithUserID()
 
