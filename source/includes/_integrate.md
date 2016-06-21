@@ -179,7 +179,7 @@ Send the appropriate `fabricEvent` via `sendFabricEvent()`.
   and aggregate the summary statistics _30 seconds_ after the last measurement
   for a conference is received.
   
-- send `fabricHoldz` or `fabricResume` whenever the user holds and unholds the call.
+- send `fabricHold` or `fabricResume` whenever the user holds and resumes the call.
   This is usually done when a user gets multiple incoming conference calls, and has 
   to stop transmitting (hold) on one conference call to transmit on the other, and 
   then returns to earlier call to resume transmitting (unhold).
