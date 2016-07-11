@@ -51,6 +51,8 @@ If the value of any developer generated String is empty, undefined, or null, the
   // Your ECDSA private key for which the public key is submitted to
   // callstats.io dashboard
   var key = fs.readFileSync('ecprivate.key');
+  var keyid = '0102030405060709';
+  var appid = 12345678;
   // Dummy audit log
   var audit = {log: console.log};
 
@@ -62,7 +64,7 @@ If the value of any developer generated String is empty, undefined, or null, the
 
   // Dummy JWT ID generator
   var randomIdGenerator = function () {
-    return 4;
+    return 42;
   };
 
   app.post('/getToken', function (req, res) {
@@ -76,7 +78,8 @@ If the value of any developer generated String is empty, undefined, or null, the
       token = jwt.sign(
         {
           userID: req.user.id.toString(),
-          appID: 12345678
+          appID: appid,
+          keyID: keyid
         }, key,
         {
           algorithm: "ES256",
