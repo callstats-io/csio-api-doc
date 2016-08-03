@@ -238,4 +238,20 @@ The developers are expected to design an appropriate UI to get user input on qua
 
 The developers can handle the stats received from statsCallback function in a way suitable to their application. It can be used for displaying bitrate or based on the conference quality indicators applications can change their settings etc. For more details check this [blog post](/2015/08/24/statscallback-webrtc-media-quality-status/).
 
+## Step 9: (OPTIONAL) Submitting application error logs
 
+The developers can send application error logs and track them on callstats.io dashboard. The logs will help in debugging corresponding conferences. The `error` can be an object or string. 
+
+```javascript
+var error = {
+    message: "Error message",
+    error: "Error 1",
+    stack: "stack trace for the error"
+};
+
+OR
+
+error = "application error ";
+
+callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationError, error);
+```
