@@ -240,7 +240,7 @@ The developers can handle the stats received from statsCallback function in a wa
 
 ## Step 9: (OPTIONAL) Submitting application error logs
 
-The developers can send application error logs and track them on callstats.io dashboard. The logs will help in debugging corresponding conferences. The `error` can be an object or string. 
+The developers can send application error logs using `reportError()` API and track them on callstats.io dashboard. The logs will help in debugging the corresponding conferences. The `error` can be an object or a string. 
 
 ```javascript
 var error = {
