@@ -243,15 +243,17 @@ The developers can handle the stats received from statsCallback function in a wa
 The developers can send application error logs using `reportError()` API and track them on callstats.io dashboard. The logs will help in debugging the corresponding conferences. The `error` can be an object or a string. 
 
 ```javascript
-var error = {
+var error1 = {
     message: "Error message",
     error: "Error 1",
     stack: "stack trace for the error"
 };
 
-OR
+callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationLog, error1);
+```
 
-error = "application error ";
+```javascript
+error2 = "application error ";
 
-callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationError, error);
+callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationLog, error2);
 ```
