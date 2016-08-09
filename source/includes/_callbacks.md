@@ -43,8 +43,8 @@ var csStatsCallback = function (stats) {
 }
 
 // initialize the callstats js API
-var callStats = new callstats();
-callStats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
+var callstats = new callstats();
+callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
 ```
 
 The `initialize()` API authenticates the javascript WebRTC application with the callstats.io back-end, and sets up a trusted relationship with it. The API is extended by adding a `csStatsCallback` parameter. The callback parameter is OPTIONAL.
