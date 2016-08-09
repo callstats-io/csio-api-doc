@@ -5,7 +5,7 @@
 ## callstats.initialize() with app secret
 
 ```javascript
-callStats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
+callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
 
   Params  |  Argument | Type | Description
@@ -56,7 +56,7 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 
 ## callstats.addNewFabric()
 ```javascript
- callStats.addNewFabric(pcObject, remoteUserID, fabricUsage, conferenceID, pcCallback);
+ callstats.addNewFabric(pcObject, remoteUserID, fabricUsage, conferenceID, pcCallback);
 ```
 
 - Indicates that the WebRTC application requests callstats.js to monitor the performance of the _PeerConnection_ between the two endpoints (represented by the corresponding UserIDs).
@@ -72,7 +72,7 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 ## callstats.reportError()
 
 ```javascript
-callStats.reportError(pcObject, conferenceID, callStats.webRTCFunctions.createOffer);
+callstats.reportError(pcObject, conferenceID, callStats.webRTCFunctions.createOffer);
 ```
 
 - Notifies the callstats.io back-end about conference setup failure reason.
