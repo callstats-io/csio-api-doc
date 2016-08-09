@@ -29,7 +29,7 @@ The callstats.io's Javascript client library enables performance monitoring feat
 
 ## Versioning
 
-`callstats.js` uses [semantic versioning](http://semver.org). The latest version is in the changelog.(TODO)
+`callstats.js` uses [semantic versioning](http://semver.org). The latest version is in the changelog. However, programmatically the version can be fetched by invoking `callstats.version`.
 
 
 
