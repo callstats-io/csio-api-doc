@@ -36,7 +36,7 @@ If you are using require.js, please refer to the following <a href="/#loading-wi
   var AppSecret = "YOUR APPLICATION SECRET";
 
   //localUserID is generated or given by the origin server
-  callStats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
+  callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
 
 After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#callstats-initialize)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
@@ -88,7 +88,7 @@ For more information on callbacks, please refer to [csInitCallback](#csinitcallb
   }
 
   //userID is generated or given by the origin server
-  callStats.initialize(AppID, exampleTokenGenerator(initialToken), userID, initCallback, statsCallback, configParams);
+  callstats.initialize(AppID, exampleTokenGenerator(initialToken), userID, initCallback, statsCallback, configParams);
 ```
 
 
@@ -115,7 +115,7 @@ After the user is authenticated with the origin server (or when the page loads),
 
   //remoteUserID is the recipient's userID
   //conferenceID is generated or provided by the origin server (webrtc service)
-  callStats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
+  callstats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
 
 ```
 
@@ -147,7 +147,7 @@ In any WebRTC endpoint, where multiple _PeerConnections_ are created between eac
   };
 
   function createOfferError(err) {
-    callStats.reportError(pcObject, conferenceID, callStats.webRTCFunctions.createOffer, err);
+    callstats.reportError(pcObject, conferenceID, callstats.webRTCFunctions.createOffer, err);
   }
 
   // remoteUserID is the recipient's userID
@@ -155,7 +155,7 @@ In any WebRTC endpoint, where multiple _PeerConnections_ are created between eac
   // pcObject is created, tell callstats about it
   // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
 
-  var usage = callStats.fabricUsage.multiplex;
+  var usage = callstats.fabricUsage.multiplex;
   callStats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
 
   // let the "negotiationneeded" event trigger offer generation
@@ -178,7 +178,7 @@ Congratulations! You have now completed the basic integration steps, read more f
 
 ```javascript
 // send fabricEvent: videoPause 
-callStats.sendFabricEvent(pcObject, callStats.fabricEvent.videoPause, conferenceID);
+callstats.sendFabricEvent(pcObject, callstats.fabricEvent.videoPause, conferenceID);
 
 // devices are returned by the 
 /*
@@ -195,7 +195,7 @@ var eventData = {
 };
 
 // send fabricEvent: activeDeviceList
-callStats.sendFabricEvent(pcObject, callStats.fabricEvent.activeDeviceList, conferenceID, eventData);
+callstats.sendFabricEvent(pcObject, callstats.fabricEvent.activeDeviceList, conferenceID, eventData);
 ```
 
 During the conference, users might perform several actions impacting the measurements and conference analysis. The user might mute the audio or switch off the camera or do screen sharing during a conference. These events can directly impact the measurement data (For example, you can see a significant drop in throughput when camera is switched off). For the list of all possible conference events, please refer [here](#enumeration-of-fabricevent)
@@ -259,8 +259,8 @@ Send the appropriate `fabricEvent` via `sendFabricEvent()`.
   // various tracks (e.g., front-camera, back-camera, without looking at the
   // configurations of the individual MSTs). In this example, we assume it is the
   // front-camera.
-  callStats.associateMstWithUserID(pc, localUserID, conferenceID, ssrc1, mstLabel);
-  callStats.associateMstWithUserID(pc, remoteUserID, conferenceID, ssrc2, mstLabel);
+  callstats.associateMstWithUserID(pc, localUserID, conferenceID, ssrc1, mstLabel);
+  callstats.associateMstWithUserID(pc, remoteUserID, conferenceID, ssrc2, mstLabel);
 ```
 
 When interacting with the conference server, the developer is most likely going to use the name or identifier associated with the conference server as the `remoteUserID`. A typical conference bridge (for example, [Jitsi Videobridge](https://jitsi.org/Projects/JitsiVideobridge)) transmits [multiple media stream tracks within a peer connection](https://hacks.mozilla.org/2015/06/firefox-multistream-and-renegotiation-for-jitsi-videobridge/). In which case, using a remote participant’s userID is impractical as there maybe several participants.
@@ -281,7 +281,7 @@ More discussion related to the motivation of `associateMstWithUserID()` is cover
     "userID": localUserID, //mandatory
     "overall": overallRating, //mandatory
   };
-  callStats.sendUserFeedback(conferenceID, feedback, pcCallback);
+  callstats.sendUserFeedback(conferenceID, feedback, pcCallback);
 ```
 
 The developers are expected to design an appropriate UI to get user input on quality at the end of the call. Typically, services collect user feedback based on the Mean Opinion Score (MOS). However, it is not neccessary to use all values of the  MOS scale, for example a service using only 2 point scale: it can associate 1 and 5 to bad and excellent, respectively and not use the values 2 to 4.
@@ -302,11 +302,11 @@ var error1 = {
     stack: "stack trace for the error"
 };
 
-callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationLog, error1);
+callstats.reportError(pc, confID, callstats.webRTCFunctions.applicationLog, error1);
 ```
 
 ```javascript
 error2 = "application error ";
 
-callStats.reportError(pc, confID, callStats.webRTCFunctions.applicationLog, error2);
+callstats.reportError(pc, confID, callstats.webRTCFunctions.applicationLog, error2);
 ```
