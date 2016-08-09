@@ -1,13 +1,12 @@
 
 #API
 
-## callstats.initialize()
+
+## callstats.initialize() with app secret
 
 ```javascript
 callStats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
-
-- Authenticates with the callstats.io back-end to setup a trusted relationship with it.
 
   Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
@@ -17,6 +16,20 @@ callStats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallb
 `csInitCallback`  | Optional | Callback | asynchronously reports failure or success of the protocol messages.
 `csStatsCallback`  | Optional | Callback | asynchronously reports the conference statistics.
 `configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library.
+
+## callstats.initialize() with third party authentication
+
+- Authenticates with the callstats.io backend to setup a trusted relationship with it.
+  
+  Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ---------- 
+`AppID`  | Required | String | Application ID is obtained from callstats.io.
+`tokenGenerator`  | Required | callback | Callback to generate token.
+`localUserID`  | Required | String (256 bytes) | it is provided by the developer and MUST NOT be null or empty.
+`csInitCallback`  | Optional | callback | asynchronously reports failure or success of the protocol messages.
+`csStatsCallback`  | Optional | callback | asynchronously reports the conference statistics.  
+`configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library. 
+
 
 Section on [generating userID](#generating-userid-and-conferenceid) provides more guidelines on choosing a `localUserID`.
 

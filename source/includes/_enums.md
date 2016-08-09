@@ -59,5 +59,6 @@ Function Name  | Description
 `csProtoError`  | The client library is sending malformed messages.
 `success`  | The back-end has accepted the request and the endpoint is authenticated, or capable of sending measurement data.
 `appConnectivityError`  | The connectivity checks for given _PeerConnection_ object failed, i.e., iceConnectionState is set to disconnected.
+`tokenGenerationError` | Application could not generate the JWT.
 
 - `csProtoError`: This may happen due to a change in the metrics or formatting of the current statistics API implemented by the browser.
