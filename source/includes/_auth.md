@@ -11,6 +11,8 @@ callstats.io uses the “Origin” header in the HTTP request to fetch the reque
 
 callstats.io compares the Origin URL sent by the HTTP user-agent in the authentication message with the stored Origin URL for that particular AppID. If the origins match, callstats.io returns a new token and associates the token to the requesting userID. Alternatively, if the origins does not match, callstats.io rejects the request, and denies access to that particular user-agent.
 
+## Third-party authentication
+
 Instead of relying only on the endpoint for authentication, the callstats.io also implements third-party authentication, which requires the origin server to generate token for the endpoint which is then used to authenticate the endpoint.
 
 Token format used by callstats.io's third party authentication system is [JWT](https://jwt.io/). Currently the only supported algorithm is ES256.
