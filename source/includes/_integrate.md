@@ -28,7 +28,7 @@ Add the `callstats.js` and related dependencies in the HEAD tag.
 If you are using require.js, please refer to the following <a href="/#loading-with-requrie-js"> section </a>
 </aside>
 
-## Step 2a: Initialize() with AppSecret
+## Step 2: Initialize() with AppSecret
 
 ```javascript
   //initialize the app with application tokens
@@ -41,61 +41,9 @@ If you are using require.js, please refer to the following <a href="/#loading-wi
 
 After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#callstats-initialize)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
 
-For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling.
+For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling. 
 
-## Step 2b: Initialize() with JWT (example)
-
-### Client
-```javascript
-  //initialize the app with application tokens
-  var AppID     = "YOUR APPLICATION ID";
-
-  function exampleTokenGenerator(initialToken) {
-    var cached = null;
-    if (initalToken)
-     var cached = initialToken;
-    // forcenew = set to true if application should generate new token and false if
-    // it's okay to use cached token
-    // callback(error, token). error should be set to non-null if there was an
-    // non-recoverable error. Token should be the JWT. Please see section
-    // "Third-party Authentication" for more complete documentation
-    return function(forcenew, callback) {
-      if (!forcenew && cached !== null)
-        return callback(null, cached);
-      // 1. get new token
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/getToken');
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-      xhr.onload = function() {
-        // Did we get 200 OK response?
-        if (xhr.status == 200) {
-          // Get token and send it to callback
-          var resp = JSON.parse(req.responseText);
-          // the token should contain the claims defined in third party authentication
-          return callback(null, resp.token);
-        }
-        console.log("Couldn't get the token");
-        console.log(req.responseText);
-        // if uncorrectable error happens, inform callstats.io
-        return callback('Unknown error');
-      };
-      xhr.send(data);
-    };
-  }
-
-  function initCallback (err, msg) {
-    console.log("Initializing Status: err="+err+" msg="+msg);
-  }
-
-  //userID is generated or given by the origin server
-  callstats.initialize(AppID, exampleTokenGenerator(initialToken), userID, initCallback, statsCallback, configParams);
-```
-
-
-
-
-After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#api)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive an appropriate authentication token to make subsequent API calls.
-
+ALTERNATIVE: If you are interested in using the third-party authentication, see the details described in a [later section](/#third-party-authentication).
 
 ## Step 3: addNewFabric()
 
