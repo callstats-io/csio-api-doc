@@ -15,6 +15,7 @@ includes:
   - integrate
   - require
   - init
+  - auth3p
   - support
 
 search: true
