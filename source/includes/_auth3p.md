@@ -6,7 +6,7 @@ Token format used by callstats.io's third party authentication system is [JWT](h
 
 ## API
 
-The API is defined [above](/#callstats-initialize-with-third-party-authentication). 
+The API is defined [above](#callstats-initialize-with-third-party-authentication). 
 
 ## Token claims
 
