@@ -25,6 +25,11 @@ Typically, if the same user joins the conference via multiple means (devices or 
 
 <img src="/images/2015-mesh-conf-server.png" alt="WebRTC conference star topology" width="700"/>
 
+### UserID objects
+
+In some cases, customers want to provide the actual username in addition to the alias to callstats.io. For example, the actual username can be accessed by the customer support, while the alias is shown to engineering team. The customer service representative needs to know the real names of the users to perform their work, while the engineering team does not. This functionality helps callstats.io separate the userID information and show the correct end-user information based on the user role.
+
+Since callstats.js version 3.14, it accepts userID both as a String or an object. 
 
 ## conferenceID
 
