@@ -22,9 +22,9 @@ callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallb
 In some cases, customers want to provide the actual username in addition to the alias to callstats.io. Since callstats.js version 3.14, it accepts userID both as a String or an object. Section on [generating userID](#generating-userid-and-conferenceid) provides more guidelines on choosing a `localUserID`.
 
 ```javascript
-var userId = {}
-userId.userName = “Clark Kent"
-userId.aliasName = “superman"
+var userId = {};
+userId.userName = "Clark Kent";
+userId.aliasName = "superman";
 ```
 
   Keys  |  Required | Description
