@@ -17,21 +17,20 @@ callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallb
 `csStatsCallback`  | Optional | Callback | asynchronously reports the conference statistics.
 `configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library.
 
-## callstats.initialize() with third party authentication
+### JSON for UserID (supported since v3.14)
 
-- Authenticates with the callstats.io backend to setup a trusted relationship with it.
-  
-  Params  |  Argument | Type | Description
------------  | ----------- | -------- | ---------- 
-`AppID`  | Required | String | Application ID is obtained from callstats.io.
-`tokenGenerator`  | Required | callback | Callback to generate token.
-`localUserID`  | Required | String (256 bytes) or Object | it is provided by the developer and MUST NOT be null or empty.
-`csInitCallback`  | Optional | callback | asynchronously reports failure or success of the protocol messages.
-`csStatsCallback`  | Optional | callback | asynchronously reports the conference statistics.  
-`configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library. 
+In some cases, customers want to provide the actual username in addition to the alias to callstats.io. Since callstats.js version 3.14, it accepts userID both as a String or an object. Section on [generating userID](#generating-userid-and-conferenceid) provides more guidelines on choosing a `localUserID`.
 
+```javascript
+var userId = {}
+userId.userName = “Clark Kent"
+userId.aliasName = “superman"
+```
 
-Section on [generating userID](#generating-userid-and-conferenceid) provides more guidelines on choosing a `localUserID`.
+  Keys  |  Required | Description
+-----------  | -------- | ----------
+`userName` | Yes | Strint of maximum lenth **128 characters**.
+`aliasName` | Yes | String of maximum length **256 characters**.
 
 ### JSON for configParams
 
@@ -53,20 +52,18 @@ It provides developers a method to enable or disable certain features or functio
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` <a href=/#step-5-optional-conference-events> event </a>
 </aside>
 
-### JSON for UserID
+## callstats.initialize() with third party authentication
 
-In some cases, customers want to provide the actual username in addition to the alias to callstats.io. Since callstats.js version 3.14, it accepts userID both as a String or an object. 
-
-```javascript
-var userId = {}
-userId.userName = “Clark Kent"
-userId.aliasName = “superman"
-```
-
-  Keys  |  Required | Description
------------  | -------- | ----------
-`userName` | Yes | Strint of maximum lenth **128 characters**.
-`aliasName` | Yes | String of maximum length **256 characters**.
+- Authenticates with the callstats.io backend to setup a trusted relationship with it.
+  
+  Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ---------- 
+`AppID`  | Required | String | Application ID is obtained from callstats.io.
+`tokenGenerator`  | Required | callback | Callback to generate token.
+`localUserID`  | Required | String (256 bytes) or Object | it is provided by the developer and MUST NOT be null or empty.
+`csInitCallback`  | Optional | callback | asynchronously reports failure or success of the protocol messages.
+`csStatsCallback`  | Optional | callback | asynchronously reports the conference statistics.  
+`configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library. 
 
 
 ## callstats.addNewFabric()
