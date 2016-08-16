@@ -33,9 +33,8 @@ Token supports following claims:
  nbf | Optional | NumericDate | [Token not valid before](https://tools.ietf.org/html/rfc7519#section-4.1.5). It's recommended that this is set 5-10 minutes into the past.
  jti | Optional | String | [JWT ID](https://tools.ietf.org/html/rfc7519#section-4.1.7). This is used for audit logging.
  
- ## Step 2b: Initialize() with JWT (example)
+## Alternative Step 2: Initialize() with JWT (Client example)
 
-### Client
 ```javascript
   //initialize the app with application tokens
   var AppID     = "YOUR APPLICATION ID";
