@@ -10,13 +10,12 @@ You can track your integration progress from our <a href= "https://dashboard.cal
 
 ```javascript
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.5.0/sha.js"></script>
   <script src="https://api.callstats.io/static/callstats.min.js"></script>
 ```
 > Everything in the `callstats.js` is scoped under the callstats namespace, hence create the object.
 
 ```javascript
-  var callstats = new callstats(null,io,jsSHA);
+  var callstats = new callstats(null,io);
 ```
 
 `callstats.js` depends on other common libraries that should be included in the HEAD tag. No need to include them again if your web application already uses them. However, make note of the socket.io.js version! We currently recommend the use of `socket.io-1.4.5.js` (socket.io.js versions older than 1.0.0 are not supported).
