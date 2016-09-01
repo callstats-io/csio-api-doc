@@ -11,17 +11,13 @@ requirejs.config({
   paths: {
     //jQuery usage is deprecated from the version 3.10.0 onwards
     callstats: "https://api.callstats.io/static/callstats.min",
-    socketio: "https://cdn.socket.io/socket.io-1.4.5",
-    sha: "https://cdnjs.cloudflare.com/ajax/libs/jsSHA/1.5.0/sha"
+    socketio: "https://cdn.socket.io/socket.io-1.4.5"
   },
   // 2. define dependency shim; callstats depends on sha and socket.io
-  // IMPORTANT: You must preserve naming of variables for $, io and jsSHA
+  // IMPORTANT: You must preserve naming of variables for io 
   shim: {
     'socketio': {
         exports: 'io'
-    },
-    'sha': {
-      exports: 'jsSHA'
     },
     'callstats': {
       deps: ['socketio','sha'],
