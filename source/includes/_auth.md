@@ -13,5 +13,5 @@ callstats.io compares the Origin URL sent by the HTTP user-agent in the authenti
 
 ## 3rd party authentication
 
-Is discussed in detail in a later [section](/#third-party-authentication). 
+Is discussed in detail in a later [section](http://callstats.io/api/#third-party-authentication). 
 
