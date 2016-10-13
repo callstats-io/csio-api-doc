@@ -257,3 +257,6 @@ error2 = "application error ";
 
 callstats.reportError(pc, confID, callstats.webRTCFunctions.applicationLog, error2);
 ```
+<aside class="error">
+Please note that the application log size is limited to 20KB. Any application log greater than 20KB will be truncated to 20KB and a warning message will be displayed on the console log. 
+</aside>
