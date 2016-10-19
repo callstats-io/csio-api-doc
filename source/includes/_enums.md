@@ -48,10 +48,16 @@ Function Name  | Description
 `signalingError`  | Signaling related errors in the application.
 `applicationLog`  | Application related logs, this will not be considered as a failure.
 
+## Enumeration of userIDType
+
+Name  | Description
+---------  | -----------
+`local` | Set the localUserID
+`remote`| Set the remoteUserID 
 
 ## csError Types
 
-Function Name  | Description
+Name  | Description
 ---------  | -----------
 `httpError`  | HTTP error, the `csErrMsg` string is reported by the browser.
 `authError`  | Authentication failed, AppID or AppSecret is incorrect.
