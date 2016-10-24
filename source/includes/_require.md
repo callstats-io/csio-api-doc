@@ -9,18 +9,12 @@
 requirejs.config({
   // 1. define source paths to other dependencies
   paths: {
-    //jQuery usage is deprecated from the version 3.10.0 onwards
-    callstats: "https://api.callstats.io/static/callstats.min",
-    socketio: "https://cdn.socket.io/socket.io-1.4.5"
+    //jQuery usage is deprecated from the version 3.10.0 onwards and socket.io is deprecated from 3.16.0
+    callstats: "https://api.callstats.io/static/callstats.min"
   },
-  // 2. define dependency shim; callstats depends on sha and socket.io
-  // IMPORTANT: You must preserve naming of variables for io 
   shim: {
-    'socketio': {
-        exports: 'io'
-    },
     'callstats': {
-      deps: ['socketio','sha'],
+      deps: [],
     },
     'WebRTCApp': {
       deps: ['callstats',... <other dependencies> ...],
