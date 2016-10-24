@@ -19,7 +19,7 @@ You can track your integration progress from our <a href= "https://dashboard.cal
 Add the `callstats.js` in the HEAD tag.
 
 <aside class="error">
-If you are using require.js, please refer to the following <a href="/#loading-with-requrie-js"> section </a>
+If you are using require.js, please refer to the following <a href="#loading-with-requrie-js"> section </a>
 </aside>
 
 ## Step 2: Initialize() with AppSecret
