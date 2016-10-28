@@ -1,7 +1,5 @@
 # Third-party authentication
 
-Instead of relying only on the endpoint for authentication, the callstats.io also implements third-party authentication, which requires the origin server to generate token for the endpoint which is then used to authenticate the endpoint.
-
 Token format used by callstats.io's third party authentication system is [JWT](https://jwt.io/). Currently the only supported algorithm is ES256.
 
 ## API
