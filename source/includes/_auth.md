@@ -13,5 +13,5 @@ callstats.io compares the Origin URL sent by the HTTP user-agent in the authenti
 
 ## 3rd party authentication
 
-Is discussed in detail in a later [section](http://callstats.io/api/#third-party-authentication). 
+Instead of relying only on the endpoint for authentication, the callstats.io also implements third-party authentication, which requires the origin server to generate token for the endpoint which is then used to authenticate the endpoint. 3rd party authentication is discussed in detail in a later [section](http://callstats.io/api/#third-party-authentication). 
 
