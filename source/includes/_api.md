@@ -111,6 +111,8 @@ callstats.reportError(pcObject, conferenceID, callStats.webRTCFunctions.createOf
 ## callstats.associateMstWithUserID()
 ```javascript
 // Extracting SSRC from SDP
+var validLine = RegExp.prototype.test.bind(/^([a-z])=(.*)/);
+var reg = /^ssrc:(\d*) ([\w_]*):(.*)/;
 
 pc.remoteDescription.sdp.split(/(\r\n|\r|\n)/).filter(validLine).forEach(function (l) {
         var type = l[0];
