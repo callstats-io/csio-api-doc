@@ -1,0 +1,2382 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "callstats REST API",
+        "description": "Monitor your web-rtc app with the callstats API",
+        "version": "1.0.0"
+    },
+    "host": "api.callstats.io",
+    "schemes": [
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/authenticate": {
+            "post": {
+                "externalDocs": {
+                    "url": "https://tools.ietf.org/html/rfc6749#section-4.1.3",
+                    "description": "OAuth2 Access Token Request"
+                },
+                "description": "Returns an access token",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "parameters": [
+                    {
+                        "name": "grant_type",
+                        "required": true,
+                        "in": "formData",
+                        "description": "Must be \"authorization_code\"",
+                        "type": "string"
+                    },
+                    {
+                        "name": "code",
+                        "required": true,
+                        "in": "formData",
+                        "description": "JWT signed ApplicationToken with alg set to HS256",
+                        "type": "string"
+                    },
+                    {
+                        "name": "client_id",
+                        "required": true,
+                        "in": "formData",
+                        "description": "localID@appID",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A new token",
+                        "schema": {
+                            "$ref": "#/definitions/AccessToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/AuthenticationError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error",
+                        "schema": {
+                            "$ref": "#/definitions/AuthenticationError"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}": {
+            "post": {
+                "summary": "UserJoined / Create conference Event",
+                "description": "This is the first step to add a new participant to the list of conference participants or start a new conference. If there are no participants in the given conference then a new conference will be created with the conferenceID provided.",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "request body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserJoinedMessageBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Action Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Conference successfully joined/created.",
+                        "schema": {
+                            "$ref": "#/definitions/ucIDResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/user/alive": {
+            "post": {
+                "summary": "UserAlive Event",
+                "description": "UserAlive makes sure that the user is present in the conference\n. We recommend you send this event every 10 seconds.\n If there is no userAlive event from a particular user for more than 30 seconds, we assume that the user has left the conference.",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CommonHeaderParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Action Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/user/left": {
+            "post": {
+                "summary": "UserLeft Event",
+                "description": "UserLeft event should be sent when a user leaves the conference.\nThis event removes the user from the list of conference participants.\nThe conference will be closed when all the users have left or timed out.",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CommonHeaderParams"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Action Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/devices/list": {
+            "post": {
+                "summary": "Submitting connected/active devices",
+                "description": "Information about the connected and/or active media devices.\nAvailable eventTypes are given below:\n   - connectedDeviceList (All the media devices connected to the end-point) \n   - activeDeviceList (Active media devices used by the end-point) \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/devicelistBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Media Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/media/actions": {
+            "post": {
+                "summary": "Submitting UserMedia Events",
+                "description": "There are several user events related to media, for example, a user can mute the audio or unmute the audio. Such events can be reported to callstats.io via user media events:\n   - audioMute (user muted the audio) \n   - audioUnMute (user unmuted the audio) \n   - videoPause (video paused by the user) \n   - videoResume (video resumed by the user) \n   - screenShareStart (user started screensharing) \n   - screenShareStop (user stopped screensharing) \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mediaActionBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Media Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/media/pipeline": {
+            "post": {
+                "summary": "Submitting Media pipeline events",
+                "description": "When the media starts to render, or suspended or stalled in the end-point then these events should be sent.\n  - mediaPlaybackStarted (media is available at the end-point)\n  - mediaPlaybackSuspended (media is suspeneded at the end-point)\n  - mediaPlaybackStalled (media is stalled at the end-point)\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mediaPipelineBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "User Media Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/fabric": {
+            "post": {
+                "summary": "Submitting network related events",
+                "description": "These are connection related events, there are three fabric events possible\n  - fabricSetup (connection is setup and you can send data) \n  - fabricSetupFailed (connection failed and you cannot send data) \n  - fabricTerminated (connection ended and you cannot send data) \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fabricBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Fabric Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/ice/status": {
+            "post": {
+                "summary": "Submitting icestatus events",
+                "description": "These events should be sent whenever ICE connection state of the fabric changes. \n  - iceDisruptionStart (ICE state changes from connected or completed to disconnected) \n  - iceDisruptionEnd (ICE state changes from disconnected to connected or completed)\n  - iceRestarted (ICE state changes to new from any other state)\n  - iceFailed (ICE connection state failed is reached from checking to failed  or checking to disconnected to failed) \n  - iceAborted (ICE connections state closed is reached from new or checking) \n  - iceTerminated (ICE state closed from any other state than new or checking) \n  - iceConnectionDisruptionStart (ICE state disconnected is reached from checking) \n  - iceConnectionDisruptionEnd (ICE state checking is reached from disconnected)\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/iceStatusBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "ICE Events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/feedback": {
+            "post": {
+                "summary": "Submitting Conference user feedback",
+                "description": "You can submit overall rating to conference and add comments as well. It is also possible to give separate ratings for audio and video.\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userFeedbackBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/dominantspeaker": {
+            "post": {
+                "summary": "Submitting dominantspeaker event",
+                "description": "Using this event, you can specify the dominant speaker of the conference. For reference you can check this link: http://www.sciencedirect.com/science/article/pii/S0885230812000186 \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dominantSpeakerBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/fabric/transportchange": {
+            "post": {
+                "summary": "Submitting icetransportchange event",
+                "description": "Whenever the active ICE candidate pair is changed to the alternative pair, this should be notified.\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fabricTransportSwitchBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/fabric/statechange": {
+            "post": {
+                "summary": "Submitting fabricstatechange event",
+                "description": "Whenever the ICE connection state changes or ICE gathering state changes or signaling state changes then this event should be sent.\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/fabricStateChangeBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/ssrcmap": {
+            "post": {
+                "summary": "Submitting ssrcmap event",
+                "description": "Whenever new media track appears, for example a new participant joins or new media sources are added, this event should be notified. \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ssrcMapBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/events/sdp": {
+            "post": {
+                "summary": "Submitting SDP event",
+                "description": "PRO feature: Whenever there is an updated SDP or a pair of local and remote SDPs, this can be sent to callstats.io.\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/sdpSubmissionBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "special events"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/stats": {
+            "post": {
+                "summary": "Submitting Conference stats",
+                "description": "All the conference stats inlcuding tracks, candidatePairs,trasnports, msts, dataChannels, codes and timestamps can be submitted using this event. For the time being tracks, candidatePairs and timestamp are mandatory fields. \n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/statsData"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Stats submission"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/apps/{appID}/conferences/{confID}/{ucID}/system/status": {
+            "post": {
+                "summary": "Submitting System status stats for a conference",
+                "description": "Submitting System status information for a conference such as battery level, cpu , etc.\n",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "description": "Header name has to be 'Authorization' and value 'Bearer ' + token returned by authenticate.",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "appID",
+                        "in": "path",
+                        "description": "App Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "confID",
+                        "in": "path",
+                        "description": "Conference ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "ucID",
+                        "in": "path",
+                        "description": "ucID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "requestBody",
+                        "in": "body",
+                        "description": "Request payload",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/systemStatusBody"
+                        }
+                    }
+                ],
+                "tags": [
+                    "Stats submission"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event successfully received.",
+                        "schema": {
+                            "$ref": "#/definitions/successResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequest"
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid authentication token.",
+                        "schema": {
+                            "$ref": "#/definitions/unauthorizedRequest"
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid request body data.",
+                        "schema": {
+                            "$ref": "#/definitions/invalidRequestBody"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/internalServerResponse"
+                        }
+                    },
+                    "503": {
+                        "description": "Service unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/serviceUnavailableResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "endpointInfo": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string"
+                },
+                "os": {
+                    "type": "string"
+                },
+                "osVersion": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "appVersion": {
+                    "type": "string"
+                }
+            }
+        },
+        "CommonHeaderParams": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                }
+            }
+        },
+        "UserJoinedMessageBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "endpointInfo"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "endpointInfo": {
+                    "$ref": "#/definitions/endpointInfo"
+                }
+            }
+        },
+        "ucIDResponse": {
+            "type": "object",
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "success",
+                    "description": "Always \"success\""
+                },
+                "ucID": {
+                    "type": "string",
+                    "description": "Unique identifier"
+                }
+            }
+        },
+        "successResponse": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "success",
+                    "description": "Always \"success\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Error message"
+                }
+            }
+        },
+        "invalidRequest": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "Always \"error\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Error message"
+                }
+            }
+        },
+        "unauthorizedRequest": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "Always \"error\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Error message"
+                }
+            }
+        },
+        "invalidRequestBody": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "Always \"error\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "internalServerResponse": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "Always \"error\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": ""
+                }
+            }
+        },
+        "serviceUnavailableResponse": {
+            "type": "object",
+            "required": [
+                "status",
+                "msg"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "default": "error",
+                    "description": "Always \"error\""
+                },
+                "msg": {
+                    "type": "string",
+                    "description": "Error message"
+                }
+            }
+        },
+        "mediaActionBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "eventType",
+                "mediaDeviceID",
+                "remoteIDList"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "mediaDeviceID": {
+                    "type": "string"
+                },
+                "eventType": {
+                    "type": "string",
+                    "enum": [
+                        "audioMute",
+                        "audioUnMute",
+                        "videoPause",
+                        "videoResume",
+                        "screenShareStart",
+                        "screenShareStop"
+                    ]
+                },
+                "remoteIDList": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "devicelistBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "eventType",
+                "mediaDeviceList"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "mediaDeviceList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mediaDeviceObj"
+                    }
+                },
+                "eventType": {
+                    "type": "string",
+                    "enum": [
+                        "connectedDeviceList",
+                        "activeDeviceList"
+                    ]
+                }
+            }
+        },
+        "mediaPipelineBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "eventType",
+                "ssrc"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "ssrc": {
+                    "type": "string"
+                },
+                "eventType": {
+                    "type": "string",
+                    "enum": [
+                        "mediaPlaybackStart",
+                        "mediaPlaybackSuspended",
+                        "mediaPlaybackStalled"
+                    ]
+                }
+            }
+        },
+        "fabricBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "eventType",
+                "remoteID",
+                "connectionID"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "delay": {
+                    "type": "number"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "iceGatheringDelay": {
+                    "type": "number"
+                },
+                "iceConnectivityDelay": {
+                    "type": "number"
+                },
+                "localCandidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iceCandidatesObj"
+                    }
+                },
+                "remoteCandidates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/iceCandidatesObj"
+                    }
+                },
+                "reason": {
+                    "type": "string",
+                    "enum": [
+                        "MediaConfigError",
+                        "MediaPermissionError",
+                        "MediaDeviceError",
+                        "NegotiationFailure",
+                        "SDPGenerationError",
+                        "TransportFailure",
+                        "SignalingError"
+                    ]
+                },
+                "eventType": {
+                    "type": "string",
+                    "enum": [
+                        "fabricSetup",
+                        "fabricSetupFailed",
+                        "fabricTerminated"
+                    ]
+                }
+            }
+        },
+        "dominantSpeakerBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                }
+            }
+        },
+        "userFeedbackBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "remoteID"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "feedback": {
+                    "type": "object",
+                    "properties": {
+                        "overallRating": {
+                            "type": "integer"
+                        },
+                        "videoQualityRating": {
+                            "type": "integer"
+                        },
+                        "audioQualityRating": {
+                            "type": "integer"
+                        },
+                        "comments": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "systemStatusBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "statusStats": {
+                    "type": "object",
+                    "properties": {
+                        "cpuUsage": {
+                            "type": "number"
+                        },
+                        "batteryLevel": {
+                            "type": "number"
+                        },
+                        "memoryUsage": {
+                            "type": "number"
+                        },
+                        "totalMemory": {
+                            "type": "number"
+                        },
+                        "threadCount": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "statsData": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "remoteID",
+                "connectionID",
+                "stats"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "stats": {
+                    "type": "object",
+                    "required": [
+                        "tracks",
+                        "candidatePairs"
+                    ],
+                    "properties": {
+                        "tracks": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "candidatePairs": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "transports": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "msts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "dataChannels": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "codecs": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "mediaDeviceObj": {
+            "type": "object",
+            "required": [
+                "mediaDeviceID"
+            ],
+            "properties": {
+                "mediaDeviceID": {
+                    "type": "string"
+                },
+                "kind": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "groupID": {
+                    "type": "string"
+                }
+            }
+        },
+        "fabricStateChangeBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "prevState",
+                "newState",
+                "changedState",
+                "remoteID",
+                "connectionID"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "prevState": {
+                    "type": "string"
+                },
+                "newState": {
+                    "type": "string"
+                },
+                "changedState": {
+                    "type": "string",
+                    "enum": [
+                        "signalingState",
+                        "iceConnectionState"
+                    ]
+                }
+            }
+        },
+        "ssrcMapBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "ssrcData",
+                "remoteID",
+                "connectionID"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "ssrcData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ssrcInfoObj"
+                    }
+                }
+            }
+        },
+        "fabricTransportSwitchBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "remoteID",
+                "connectionID",
+                "currIceCandidatePair",
+                "prevIceCandidatePair"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "currIceCandidatePair": {
+                    "$ref": "#/definitions/iceCandidatesObj"
+                },
+                "prevIceCandidatePair": {
+                    "$ref": "#/definitions/iceCandidatesObj"
+                },
+                "delay": {
+                    "type": "number"
+                },
+                "relayType": {
+                    "type": "string",
+                    "enum": [
+                        "turn/udp",
+                        "turn/tcp",
+                        "turn/tls",
+                        ""
+                    ]
+                }
+            }
+        },
+        "sdpSubmissionBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "remoteID",
+                "connectionID"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "localSDP": {
+                    "type": "string"
+                },
+                "remoteSDP": {
+                    "type": "string"
+                }
+            }
+        },
+        "iceCandidatesObj": {
+            "type": "object",
+            "required": [
+                "candidateID",
+                "localPort",
+                "localAddress",
+                "remotePort",
+                "remoteAddress",
+                "protocol",
+                "localCandidateType",
+                "remoteCandidateType"
+            ],
+            "properties": {
+                "candidateID": {
+                    "type": "string"
+                },
+                "localAddress": {
+                    "type": "string"
+                },
+                "localPort": {
+                    "type": "integer"
+                },
+                "localCandidateType": {
+                    "type": "string",
+                    "enum": [
+                        "host",
+                        "srflx",
+                        "prflx",
+                        "relay",
+                        "stun",
+                        "serverreflexive",
+                        "peerreflexive",
+                        "turn",
+                        "relayed",
+                        "local"
+                    ]
+                },
+                "remoteAddress": {
+                    "type": "string"
+                },
+                "remotePort": {
+                    "type": "integer"
+                },
+                "remoteCandidateType": {
+                    "type": "string",
+                    "enum": [
+                        "host",
+                        "srflx",
+                        "prflx",
+                        "relay",
+                        "stun",
+                        "serverreflexive",
+                        "peerreflexive",
+                        "turn",
+                        "relayed",
+                        "local"
+                    ]
+                },
+                "transportType": {
+                    "type": "string"
+                },
+                "protocol": {
+                    "type": "string",
+                    "enum": [
+                        "tcp",
+                        "udp"
+                    ]
+                }
+            }
+        },
+        "iceStatusBody": {
+            "type": "object",
+            "required": [
+                "localID",
+                "deviceID",
+                "timestamp",
+                "remoteID",
+                "connectionID",
+                "eventType"
+            ],
+            "properties": {
+                "localID": {
+                    "type": "string"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "remoteID": {
+                    "type": "string"
+                },
+                "connectionID": {
+                    "type": "string"
+                },
+                "currIceCandidatePair": {
+                    "$ref": "#/definitions/iceCandidatesObj"
+                },
+                "prevIceCandidatePair": {
+                    "$ref": "#/definitions/iceCandidatesObj"
+                },
+                "currIceCandidateState": {
+                    "type": "string"
+                },
+                "prevIceCandidateState": {
+                    "type": "string"
+                },
+                "delay": {
+                    "type": "number"
+                },
+                "eventType": {
+                    "type": "string",
+                    "enum": [
+                        "iceDisruptionStart",
+                        "iceDisruptionEnd",
+                        "iceRestarted",
+                        "iceFailed",
+                        "iceAborted",
+                        "iceTerminated",
+                        "iceConnectionDisruptionStart",
+                        "iceConnectionDisruptionEnd"
+                    ]
+                }
+            }
+        },
+        "ssrcInfoObj": {
+            "type": "object",
+            "properties": {
+                "ssrc": {
+                    "type": "string"
+                },
+                "cname": {
+                    "type": "string"
+                },
+                "streamType": {
+                    "type": "string",
+                    "enum": [
+                        "inbound",
+                        "outbound"
+                    ]
+                },
+                "userID": {
+                    "type": "string"
+                },
+                "msid": {
+                    "type": "string"
+                },
+                "mslabel": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "localStartTime": {
+                    "type": "number"
+                }
+            }
+        },
+        "AccessToken": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "example": "-064b-4a76-8a2d-d686ec773992"
+                },
+                "expires_in": {
+                    "type": "integer",
+                    "example": 3600
+                },
+                "token_type": {
+                    "type": "string",
+                    "example": "bearer"
+                }
+            }
+        },
+        "AuthenticationError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "invalid_request"
+                },
+                "errorReason": {
+                    "type": "string",
+                    "description": "Human readable error reason"
+                },
+                "urn:x-callstats:auth:errorActions": {
+                    "description": "Suggested actions (e.g. retry, retry with new token, report error)",
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}
