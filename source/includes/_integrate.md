@@ -19,7 +19,7 @@ You can track your integration progress from our <a href= "https://dashboard.cal
 Add the `callstats.js` in the HEAD tag.
 
 <aside class="error">
-If you are using require.js, please refer to the following <a href="#loading-with-requrie-js"> section </a>
+If you are using require.js, please refer to the following <a href="#loading-with-require-js"> section </a>
 </aside>
 
 ## Step 2: Initialize() with AppSecret
@@ -33,7 +33,7 @@ If you are using require.js, please refer to the following <a href="#loading-wit
   callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
 
-After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#callstats-initialize)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
+After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#api)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
 
 For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling.
 
