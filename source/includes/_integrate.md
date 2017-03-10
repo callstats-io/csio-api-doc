@@ -19,7 +19,7 @@ You can track your integration progress from our <a href= "https://dashboard.cal
 Add the `callstats.js` in the HEAD tag.
 
 <aside class="error">
-If you are using require.js, please refer to the following <a href="#loading-with-requrie-js"> section </a>
+If you are using require.js, please refer to the following <a href="#loading-with-require-js"> section </a>
 </aside>
 
 ## Step 2: Initialize() with AppSecret
@@ -33,9 +33,9 @@ If you are using require.js, please refer to the following <a href="#loading-wit
   callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
 
-After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#callstats-initialize)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
+After the user is authenticated with the origin server (or when the page loads), call `initialize()` with appropriate parameters (see [API section](#api)).  Check the callback for errors.  If the authentication succeeds, `callstats.js` will receive a valid authentication token to make subsequent API calls.
 
-For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling. 
+For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling.
 
 ALTERNATIVE: If you are interested in using the third-party authentication, see the details described in a [later section](/#third-party-authentication).
 
@@ -53,7 +53,7 @@ ALTERNATIVE: If you are interested in using the third-party authentication, see 
   // pcObject is created, tell callstats about it
   // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
 
-  var usage = callStats.fabricUsage.multiplex;
+  var usage = callstats.fabricUsage.multiplex;
 
   //remoteUserID is the recipient's userID
   //conferenceID is generated or provided by the origin server (webrtc service)
@@ -98,12 +98,15 @@ In any WebRTC endpoint, where multiple _PeerConnections_ are created between eac
   // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
 
   var usage = callstats.fabricUsage.multiplex;
-  callStats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
+  callstats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
 
   // let the "negotiationneeded" event trigger offer generation
   pcObject.onnegotiationneeded = function () {
     // create offer
-    pcObject.createOffer(localDescriptionCreatedCallback, createOfferErrorCallback);
+    pcObject.createOffer().then(
+      localDescriptionCreatedCallback,
+      createOfferErrorCallback
+    );
   }
 ```
 
@@ -119,10 +122,10 @@ Congratulations! You have now completed the basic integration steps, read more f
 ## Step 5: (OPTIONAL) sendFabricEvent()
 
 ```javascript
-// send fabricEvent: videoPause 
+// send fabricEvent: videoPause
 callstats.sendFabricEvent(pcObject, callstats.fabricEvent.videoPause, conferenceID);
 
-// devices are returned by the 
+// devices are returned by the
 /*
 var devices = navigator.mediaDevices.getUserMedia({
   audio: true,
@@ -173,18 +176,18 @@ Send the appropriate `fabricEvent` via `sendFabricEvent()`.
   callstats.io will summarize
   and aggregate the summary statistics _30 seconds_ after the last measurement
   for a conference is received.
-  
+
 - send `fabricHold` or `fabricResume` whenever the user holds and resumes the call.
-  This is usually done when a user gets multiple incoming conference calls, and has 
-  to stop transmitting (hold) on one conference call to transmit on the other, and 
+  This is usually done when a user gets multiple incoming conference calls, and has
+  to stop transmitting (hold) on one conference call to transmit on the other, and
   then returns to earlier call to resume transmitting (unhold).
 
-- send `dominantSpeaker` when a particular userID appears to be the only participant 
+- send `dominantSpeaker` when a particular userID appears to be the only participant
   speaking. Typically, each endpoint calculates the dominant speaker over the set of
-  participants in a sliding time-window (say, 10 seconds). Then the endpoint that 
+  participants in a sliding time-window (say, 10 seconds). Then the endpoint that
   notices that it is the dominant speaker sends the event.
-  
-- send `activeDeviceList` whenever the audio input, audio output, or video input 
+
+- send `activeDeviceList` whenever the audio input, audio output, or video input
   device changes.
 
 ## Step 6: (OPTIONAL) associateMstWithUserID()
@@ -235,7 +238,7 @@ The developers can handle the stats received from statsCallback function in a wa
 
 ## Step 9: (OPTIONAL) Submitting application logs
 
-The developers can send application error logs using `reportError()` API and track them on callstats.io dashboard. The logs will help in debugging the corresponding conferences. The `error` can be an object or a string. 
+The developers can send application error logs using `reportError()` API and track them on callstats.io dashboard. The logs will help in debugging the corresponding conferences. The `error` can be an object or a string.
 
 ```javascript
 var error1 = {
@@ -253,5 +256,5 @@ error2 = "application error ";
 callstats.reportError(pc, confID, callstats.webRTCFunctions.applicationLog, error2);
 ```
 <aside class="error">
-Please note that the application log size is limited to 20KB. Any application log greater than 20KB will be truncated to 20KB and a warning message will be displayed on the console log. 
+Please note that the application log size is limited to 20KB. Any application log greater than 20KB will be truncated to 20KB and a warning message will be displayed on the console log.
 </aside>
