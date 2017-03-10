@@ -55,15 +55,15 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 ## callstats.initialize() with third party authentication
 
 - Authenticates with the callstats.io backend to setup a trusted relationship with it.
-  
+
   Params  |  Argument | Type | Description
------------  | ----------- | -------- | ---------- 
+-----------  | ----------- | -------- | ----------
 `AppID`  | Required | String | Application ID is obtained from callstats.io.
 `tokenGenerator`  | Required | callback | Callback to generate token.
 `localUserID`  | Required | String (128 bytes) or Object | it is provided by the developer and MUST NOT be null or empty.
 `csInitCallback`  | Optional | callback | asynchronously reports failure or success of the protocol messages.
 `csStatsCallback`  | Optional | callback | asynchronously reports the conference statistics.  
-`configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library. 
+`configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library.
 
 
 ## callstats.addNewFabric()
@@ -84,7 +84,7 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 ## callstats.reportError()
 
 ```javascript
-callstats.reportError(pcObject, conferenceID, callStats.webRTCFunctions.createOffer);
+callstats.reportError(pcObject, conferenceID, callstats.webRTCFunctions.createOffer);
 ```
 
 - Notifies the callstats.io back-end about conference setup failure reason.
@@ -126,9 +126,9 @@ pc.remoteDescription.sdp.split(/(\r\n|\r|\n)/).filter(validLine).forEach(functio
           }
         }
       });
-   
+
     ssrcs.forEach(function(ssrc) {
-      window.callStats.associateMstWithUserID(pcObject, userID, conferenceID, ssrc, usageLabel, associatedVideoTag);
+      window.callstats.associateMstWithUserID(pcObject, userID, conferenceID, ssrc, usageLabel, associatedVideoTag);
     });
 ```
 
@@ -170,7 +170,7 @@ pc.remoteDescription.sdp.split(/(\r\n|\r|\n)/).filter(validLine).forEach(functio
 callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userIDType.local)
 
 ```
-- This API can be used to change local or remote userID's during the conference. 
+- This API can be used to change local or remote userID's during the conference.
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
@@ -200,4 +200,3 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 `overall` | Required | Integer (between 1-5) | Typically the scores correspond to the [mean opinion score](https://en.wikipedia.org/wiki/Mean_opinion_score), in this case this value represents the overall quality perceived by the userID.
 `audio`, `video`, `screen` | Optional | Integer (between 1-5) | Similar to the definition of `overall`, except these values correspond to specific types of media streams.
 `comment` | Optional | String | Detailed user feedback.
-
