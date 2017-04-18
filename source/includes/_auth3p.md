@@ -70,12 +70,12 @@ Token supports following claims:
     };
   }
 
-  function initCallback (err, msg) {
+  function csInitCallback (err, msg) {
     console.log("Initializing Status: err="+err+" msg="+msg);
   }
 
   //userID is generated or given by the origin server
-  callstats.initialize(AppID, exampleTokenGenerator(initialToken), userID, initCallback, statsCallback, configParams);
+  callstats.initialize(AppID, exampleTokenGenerator(initialToken), userID, csInitCallback, csStatsCallback, configParams);
 ```
 
 
