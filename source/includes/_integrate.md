@@ -232,9 +232,9 @@ More discussion related to the motivation of `associateMstWithUserID()` is cover
 The developers are expected to design an appropriate UI to get user input on quality at the end of the call. Typically, services collect user feedback based on the Mean Opinion Score (MOS). However, it is not neccessary to use all values of the  MOS scale, for example a service using only 2 point scale: it can associate 1 and 5 to bad and excellent, respectively and not use the values 2 to 4.
 
 
-## Step 8: (OPTIONAL) Handling stats from statsCallback()
+## Step 8: (OPTIONAL) Handling stats from csStatsCallback()
 
-The developers can handle the stats received from statsCallback function in a way suitable to their application. It can be used for displaying bitrate or based on the conference quality indicators applications can change their settings etc. For more details check this [blog post](/2015/08/24/statscallback-webrtc-media-quality-status/).
+The developers can handle the stats received from csStatsCallback function in a way suitable to their application. It can be used for displaying bitrate or based on the conference quality indicators applications can change their settings etc. For more details check this [blog post](/2015/08/24/statscallback-webrtc-media-quality-status/).
 
 ## Step 9: (OPTIONAL) Submitting application logs
 
