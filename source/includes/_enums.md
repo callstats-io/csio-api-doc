@@ -20,7 +20,6 @@ When using a single _PeerConnection_ between a pair of userIDs for sending and r
 
 Name  | Description
 ---------  | -----------
-`fabricSetupFailed`  | (**Deprecated**) The _PeerConnection_ failed to set up communication between the two endpoints.
 `fabricHold` | The fabric is currently not sending and receiving any media, but the connection is still active.
 `fabricResume`  | The fabric is resuming communication with the remote endpoint.
 `audioMute` | The fabric is currently not sending any Audio, but MAY be sending video.
