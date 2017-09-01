@@ -57,7 +57,7 @@ ALTERNATIVE: If you are interested in using the third-party authentication, see 
 
   //remoteUserID is the recipient's userID
   //conferenceID is generated or provided by the origin server (webrtc service)
-  callstats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, pcCallback);
+  callstats.addNewFabric(pcObject, remoteUserID, usage, conferenceID, fabricAttributes, pcCallback);
 
 ```
 
