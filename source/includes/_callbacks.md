@@ -50,7 +50,3 @@ callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallb
 The `initialize()` API authenticates the javascript WebRTC application with the callstats.io back-end, and sets up a trusted relationship with it. The API is extended by adding a `csStatsCallback` parameter. The callback parameter is OPTIONAL.
 
 The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/)
-
-
-
-

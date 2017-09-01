@@ -47,12 +47,28 @@ Function Name  | Description
 `signalingError`  | Signaling related errors in the application.
 `applicationLog`  | Application related logs, this will not be considered as a failure.
 
+## Enumeration of endpointType
+
+Name  | Description
+---------  | -----------
+`peer` | The endpoint is a WebRTC client/peer.
+`server`| The endpoint is a media server or a middle-box.
+
+## Enumeration of transmissionDirection
+
+Name  | Description
+---------  | -----------
+`sendonly` | PeerConnection is for sending only.
+`receiveonly`| PeerConnection is for receiving only.
+`sendrecv` | PeerConnection is for sending and receiving.
+`inactive`| PeerConnection is inactive. 
+
 ## Enumeration of userIDType
 
 Name  | Description
 ---------  | -----------
 `local` | Set the localUserID
-`remote`| Set the remoteUserID 
+`remote`| Set the remoteUserID
 
 ## csError Types
 
