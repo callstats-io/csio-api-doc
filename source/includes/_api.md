@@ -68,6 +68,11 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 
 ## callstats.addNewFabric()
 ```javascript
+var fabricAttributes = {
+  remoteEndpointType:   callstats.endpointType.peer,
+  fabricTransmissionDirection:  callstats.transmissionDirection.sendrecv
+};
+
  callstats.addNewFabric(pcObject, remoteUserID, fabricUsage, conferenceID, fabricAttributes, pcCallback);
 ```
 
