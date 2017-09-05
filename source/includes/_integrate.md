@@ -54,6 +54,10 @@ ALTERNATIVE: If you are interested in using the third-party authentication, see 
   // pick a fabricUsage enumeration, if pc is sending both media and data: use multiplex.
 
   var usage = callstats.fabricUsage.multiplex;
+  var fabricAttributes = {
+    remoteEndpointType:   callstats.endpointType.peer,
+    fabricTransmissionDirection:  callstats.transmissionDirection.sendrecv
+    }; 
 
   //remoteUserID is the recipient's userID
   //conferenceID is generated or provided by the origin server (webrtc service)
