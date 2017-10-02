@@ -205,7 +205,6 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 `pcCallback`  | Optional | Callback | the callback asynchronously reports failure or success of feedback submission.
 
 
-
 ### JSON for `feedback`
 
   Keys  |  Required | Type | Description
@@ -214,3 +213,17 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 `overall` | Required | Integer (between 1-5) | Typically the scores correspond to the [mean opinion score](https://en.wikipedia.org/wiki/Mean_opinion_score), in this case this value represents the overall quality perceived by the userID.
 `audio`, `video`, `screen` | Optional | Integer (between 1-5) | Similar to the definition of `overall`, except these values correspond to specific types of media streams.
 `comment` | Optional | String | Detailed user feedback.
+
+## callstats.on()
+
+- This function is used set the default or recommended configuration to the Peer Connection or Media.
+
+   Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ----------
+`eventName`  | Required | String | The allowed values are "defaultConfig" and "recommendedConfig".
+`csEventCallback`  | Optional | Callback | The callback asynchronously provides a new configuration whenever it is available.
+
+```javascript
+callstats.on(eventName, csEventCallback);
+
+```
