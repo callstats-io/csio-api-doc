@@ -1,27 +1,37 @@
 
 # Callbacks and Error Handling
 
-The WebRTC application can provide two callback functions for callstats.js:
+The WebRTC application can provide callback functions to callstats.js which are invoked in case of the following events:
 
-- csInitCallback
-- csStatsCallback
+- After the initialize
+- To enquire the stats
+- To obtain the default configuration
+- To obtain the recommended configuration
 
 
-## csInitCallback
+## The initialize callback
 
 ```javascript
+// initialize the callstats js API
+var callstats = new callstats();
+callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
+
 function csInitCallback(csError, csErrMsg) {
   console.log("Status: errCode= " + csError + " errMsg= " + csErrMsg ); }
 }
 ```
 
-To report different success and failure cases, they can occur during `initialize()` or sending measurements to callstats.io. The callback takes the form of:
+The csInitCallback function is given as a parameter to the `initialize()` call. To report different success and failure cases, which can occur during `initialize()` or sending measurements to callstats.io. The callback takes the form of:
 
 csError and csErrMsg are of type _String_. `csErrMsg` is a descriptive error returned by callstats.io.
 
-## csStatsCallback
+## The stats callback
 
 ```javascript
+// initialize the callstats js API
+var callstats = new callstats();
+callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
+
 var reportType = {
   inbound: 'inbound',
   outbound: 'outbound'
@@ -42,11 +52,53 @@ var csStatsCallback = function (stats) {
   }
 }
 
-// initialize the callstats js API
-var callstats = new callstats();
-callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
 ```
 
-The `initialize()` API authenticates the javascript WebRTC application with the callstats.io back-end, and sets up a trusted relationship with it. The API is extended by adding a `csStatsCallback` parameter. The callback parameter is OPTIONAL.
+The csStatsCallback function can either be given as a parameter to the initialize() call, or set separately with the on() functionality.
 
 The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/)
+
+## The default configuration callback
+
+```javascript
+function csDefaultConfigurationCallback(config) {
+  var pc = new RTCPeerConnection(config.peerConnection);
+  getUserMedia(config.media);
+}
+```
+
+The `csDefaultConfigurationCallback` function is set with the on() functionality. The callback is invoked when the default configuration provided in the callstats.io dashboard is available. It is only fired once.
+
+- `config.peerConnection` object is of type [RTCConfiguration](https://www.w3.org/TR/webrtc/#rtcconfiguration-dictionary)
+- `config.media` object is of type [MediaStreamConstraints](https://www.w3.org/TR/mediacapture-streams/#mediastreamconstraints)
+
+The integration steps are listed [here](#step-10-optional-obtaining-the-default-configuration)
+
+<aside class="error">
+<ul>
+
+<li> While we maintain high reliability and availability in our service, we still recommend that the app should not crash or block on this callback</li>
+<li> The default configuration provided in the callback is the exact entry you provided on the dashboard. Please make sure that the config is valid and usable by a RTCPeerConnection. This configuration SHOULD be updated with any on-the-fly calculated values in the app </li>
+
+</ul>
+</aside>
+
+## The recommended configuration callback
+
+```javascript
+function csRecommendedConfigurationCallback(config) {
+  var pc = new RTCPeerConnection(config.peerConnection);
+  getUserMedia(config.media);
+}
+```
+
+The csRecommendedConfigurationCallback function is set with the on() functionality. The callback is invoked when the recommended configuration provided by callstats.io is available. 
+
+<aside class="error">
+<ul>
+
+<li> While we maintain high reliability and availability in our service, we still recommend that the app should not crash or block on this callback</li>
+<li> The recommended configuration is provided by callstats.io. This configuration SHOULD be updated with any on-the-fly calculated values in the app </li>
+
+</ul>
+</aside>
