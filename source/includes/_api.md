@@ -216,12 +216,12 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 
 ## callstats.on()
 
-- The "on" function is used set the callbacks for events.
+- The "on" function is used to set the callbacks for events.
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
 `eventName`  | Required | String | The allowed values are "defaultConfig", "recommendedConfig", and "stats".
-`csEventCallback`  | Required | Callback | The callback asynchronously provides a new event data whenever it is available.
+`csEventCallback`  | Required | Callback | The callback asynchronously provides new event data whenever it is available.
 
 ```javascript
 callstats.on(eventName, csEventCallback);

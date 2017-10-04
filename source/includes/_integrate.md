@@ -266,19 +266,16 @@ Please note that the application log size is limited to 20KB. Any application lo
 ## Step 10: (OPTIONAL) Obtaining the default configuration
 
 ```javascript
-
 // example: default configuration callback
 
 function csDefaultConfigCallback(config) {
-	var pc = new RTCPeerConnection(config.peerConnection);
-  getUserMedia(config.media);
-
+    var pc = new RTCPeerConnection(config.peerConnection);
+    getUserMedia(config.media);
 }
-
 // Setting the default configuration callback
 
 callstats.on(“defaultConfig”, csDefaultConfigCallback);
 
 ```
 
-You can obtain the default configuration you have set on the dashboard via default configuration callback. The default configuration can be set for the Peer Connection or the media. You can set the configuration by visiting the "App Settings" page and navigating to the "configuration" tab. The section "RTCPeerConnection configuration" and "Media constraints" can be used for entering the default configuration in JSON format.
+You can obtain the default configuration you have set on the dashboard via default configuration callback. The default configuration can be set for the Peer Connection or the media. You can set the configuration by visiting the "App Settings" page and navigating to the "configuration" tab. The section [RTCPeerConnection configuration](https://www.w3.org/TR/webrtc/#rtcconfiguration-dictionary) and [Media constraints](https://www.w3.org/TR/mediacapture-streams/#mediastreamconstraints) can be used for entering the default configuration in JSON format.
