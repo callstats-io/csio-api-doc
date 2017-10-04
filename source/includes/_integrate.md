@@ -57,7 +57,7 @@ ALTERNATIVE: If you are interested in using the third-party authentication, see 
   var fabricAttributes = {
     remoteEndpointType:   callstats.endpointType.peer,
     fabricTransmissionDirection:  callstats.transmissionDirection.sendrecv
-    }; 
+    };
 
   //remoteUserID is the recipient's userID
   //conferenceID is generated or provided by the origin server (webrtc service)
@@ -262,3 +262,23 @@ callstats.reportError(pc, confID, callstats.webRTCFunctions.applicationLog, erro
 <aside class="error">
 Please note that the application log size is limited to 20KB. Any application log greater than 20KB will be truncated to 20KB and a warning message will be displayed on the console log.
 </aside>
+
+## Step 10: (OPTIONAL) Obtaining the default configuration
+
+```javascript
+
+// example: default configuration callback
+
+function csDefaultConfigCallback(config) {
+	var pc = new RTCPeerConnection(config.peerConnection);
+  getUserMedia(config.media);
+
+}
+
+// Setting the default configuration callback
+
+callstats.on(“defaultConfig”, csDefaultConfigCallback);
+
+```
+
+You can obtain the default configuration you have set on the dashboard via default configuration callback. The default configuration can be set for the Peer Connection or the media. You can set the configuration by visiting the "App Settings" page and navigating to the "configuration" tab. The section "RTCPeerConnection configuration" and "Media constraints" can be used for entering the default configuration in JSON format.

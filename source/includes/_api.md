@@ -216,12 +216,12 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 
 ## callstats.on()
 
-- This function is used set the default or recommended configuration to the Peer Connection or Media.
+- The "on" function is used set the callbacks for events.
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
-`eventName`  | Required | String | The allowed values are "defaultConfig" and "recommendedConfig".
-`csEventCallback`  | Optional | Callback | The callback asynchronously provides a new configuration whenever it is available.
+`eventName`  | Required | String | The allowed values are "defaultConfig", "recommendedConfig", and "stats".
+`csEventCallback`  | Required | Callback | The callback asynchronously provides a new event data whenever it is available.
 
 ```javascript
 callstats.on(eventName, csEventCallback);
