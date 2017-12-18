@@ -227,3 +227,31 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 callstats.on(eventName, csEventCallback);
 
 ```
+
+## callstats.attachWifiStatsHandler()
+
+- The "attachWifiStatsHandler" function is used to set the callbacks for WiFi stats. You can send WiFi stats to callstat.io and visualize the stats on the dashboard.
+
+   Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ----------
+`getWifiStats`  | Required | Callback | This method returns a Promise that resolves the WiFi stats (stringified).
+
+```javascript
+callstats.attachWifiStatsHandler(getWifiStats);
+
+function getWifiStats() {
+  return new Promise(function(resolve, reject) {
+    resolve(JSON.stringify(wifistats));
+  });
+}
+
+wifistats = {
+  signal: 20, // mandatory
+  rssi: -1, // mandatory
+  timestamp: 152320980808, // mandatory
+  interface: 'en0', // optional
+  noise: -90,  // optional
+  addresses: ['192.168.0.1', '192.168.0.2'],  // optional
+}
+
+```
