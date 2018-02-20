@@ -5,6 +5,7 @@ The WebRTC application can provide callback functions to callstats.js which are 
 
 - After the initialize
 - To enquire the stats
+- To obtain pre-call test results
 - To obtain the default configuration
 - To obtain the recommended configuration
 - To check the errors
@@ -59,6 +60,35 @@ The csStatsCallback function can either be given as a parameter to the initializ
 
 The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/)
 
+## The pre-call test results callback
+
+```javascript
+
+//Usage
+
+callstats.on("preCallTestResults", csPreCallTestResultsCallback);
+
+function preCallTestResultsCallback(status, results) {
+
+//Results
+
+var connectivity = results.mediaConnectivity;
+var rtt = results.rtt;
+var loss = results.fractionalLoss;
+var throughput = results.throughput;
+
+}
+```
+
+The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available.
+
+Params  | Type | Description
+-----------  | -------- | ----------
+`mediaConnectivity`  | boolean | True or False.
+`rtt`  | float | Round Trip Time in ms. Returns a "null" if there are no results.
+`fractionalLoss`   | float | Fractional Loss [0-1]. Returns a "null" if there are no results.
+`throughput`  | float| Throughput in kbps. Returns a "null" if there are no results.
+
 ## The default configuration callback
 
 ```javascript
@@ -93,7 +123,7 @@ function csRecommendedConfigurationCallback(config) {
 }
 ```
 
-The csRecommendedConfigurationCallback function is set with the on() functionality. The callback is invoked when the recommended configuration provided by callstats.io is available.
+The `csRecommendedConfigurationCallback` function is set with the on() functionality. The callback is invoked when the recommended configuration provided by callstats.io is available.
 
 <aside class="error">
 <ul>
