@@ -5,6 +5,7 @@ The WebRTC application can provide callback functions to callstats.js which are 
 
 - After the initialize
 - To enquire the stats
+- To obtain pre-call test results
 - To obtain the default configuration
 - To obtain the recommended configuration
 - To check the errors
@@ -59,6 +60,40 @@ The csStatsCallback function can either be given as a parameter to the initializ
 
 The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/)
 
+## The pre-call test results callback
+
+```javascript
+
+//Usage
+callstats.on("preCallTestResults", csPreCallTestResultsCallback);
+
+function preCallTestResultsCallback(status, results) {
+
+//Check the status
+  if (status == 'success') {
+    //Results
+    var connectivity = results.mediaConnectivity;
+    var rtt = results.rtt;
+    var loss = results.fractionalLoss;
+    var throughput = results.throughput;
+
+  }
+  else {
+    console.log("Pre-call test could not be run");
+  }
+
+}
+```
+
+The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the media connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use “status” to check if the pre-call test is running, it will return `success` or `failure`. The pre-call test is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins before the pre-call test is completed. You can disable pre-call test by adding "disablePrecalltest" in `configParams`.
+
+Params  | Type | Description
+-----------  | -------- | ----------
+`mediaConnectivity`  | boolean | True or False.
+`rtt`  | float | Round Trip Time in ms. Returns "null" if there is no result.
+`fractionalLoss`   | float | Fractional Loss [0-1]. Returns "null" if there is no result.
+`throughput`  | float| Throughput in kbps. Returns "null" if there is no result.
+
 ## The default configuration callback
 
 ```javascript
@@ -93,7 +128,7 @@ function csRecommendedConfigurationCallback(config) {
 }
 ```
 
-The csRecommendedConfigurationCallback function is set with the on() functionality. The callback is invoked when the recommended configuration provided by callstats.io is available.
+The `csRecommendedConfigurationCallback` function is set with the on() functionality. The callback is invoked when the recommended configuration provided by callstats.io is available.
 
 <aside class="error">
 <ul>
