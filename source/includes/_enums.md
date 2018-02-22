@@ -33,7 +33,7 @@ Name  | Description
 `activeDeviceList` | The userID reports the active devices used by him during the conference.
 
 
-## Enumeration of wrtcFuncNames
+## Enumeration of webRTCFunctions
 
 Function Name  | Description
 ---------  | -----------
@@ -61,7 +61,7 @@ Name  | Description
 `sendonly` | PeerConnection is for sending only.
 `receiveonly`| PeerConnection is for receiving only.
 `sendrecv` | PeerConnection is for sending and receiving.
-`inactive`| PeerConnection is inactive. 
+`inactive`| PeerConnection is inactive.
 
 ## Enumeration of userIDType
 
@@ -83,3 +83,10 @@ Name  | Description
 `tokenGenerationError` | Application could not generate the JWT.
 
 - `csProtoError`: This may happen due to a change in the metrics or formatting of the current statistics API implemented by the browser.
+
+## Enumeration of callStatsAPIReturnStatus
+
+Name      | Description
+------------- | -----------
+`success`  | The API call was successful.
+`failure`  | The API call failed.

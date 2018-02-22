@@ -256,3 +256,12 @@ wifistats = {
 }
 
 ```
+
+## API return values
+
+- All the callstats.io APIs returns an object containing `status` and `msg`. 
+
+   Params   | Description
+----------- | ----------
+`status`   | Returns one of the values defined in [callStatsAPIReturnStatus](#enumeration-of-callstatsapireturnstatus)
+`msg`   | Returns the corresponding message related to the `status`.
