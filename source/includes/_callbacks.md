@@ -85,7 +85,7 @@ function preCallTestResultsCallback(status, results) {
 }
 ```
 
-The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the media connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use “status” to check if the pre-call test is running, it will return `success` or `failure`. The pre-call test is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins before the pre-call test is completed. You can disable pre-call test by adding "disablePrecalltest" in `configParams`.
+The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the media connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use “status” to check if the pre-call test has finished, it will return `success` or `failure`. The pre-call test is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins before the pre-call test is completed. You can disable pre-call test by setting "disablePrecalltest" to `true` in `configParams`.
 
 Params  | Type | Description
 -----------  | -------- | ----------
