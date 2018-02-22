@@ -70,7 +70,7 @@ callstats.on("preCallTestResults", csPreCallTestResultsCallback);
 function preCallTestResultsCallback(status, results) {
 
 //Check the status
-  if (status == 'success') {
+  if (status == callstats.callStatsAPIReturnStatus.success) {
     //Results
     var connectivity = results.mediaConnectivity;
     var rtt = results.rtt;
@@ -85,7 +85,7 @@ function preCallTestResultsCallback(status, results) {
 }
 ```
 
-The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the media connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use “status” to check if the pre-call test has finished, it will return `success` or `failure`. The pre-call test is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins before the pre-call test is completed. You can disable pre-call test by setting "disablePrecalltest" to `true` in `configParams`.
+The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the Media Connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use the “status” to check if the pre-call test has succeeded, it will return `success` or `failure`. The pre-call test is enabled by default and is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins during the pre-call test. You can disable pre-call test by setting "disablePrecalltest" to `true` in `configParams`.
 
 Params  | Type | Description
 -----------  | -------- | ----------
