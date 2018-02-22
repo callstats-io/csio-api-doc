@@ -65,29 +65,34 @@ The `csStatsCallback()` will be called by the callstats.js for each PeerConnecti
 ```javascript
 
 //Usage
-
 callstats.on("preCallTestResults", csPreCallTestResultsCallback);
 
 function preCallTestResultsCallback(status, results) {
 
-//Results
+//Check the status
+  if (status == 'success') {
+    //Results
+    var connectivity = results.mediaConnectivity;
+    var rtt = results.rtt;
+    var loss = results.fractionalLoss;
+    var throughput = results.throughput;
 
-var connectivity = results.mediaConnectivity;
-var rtt = results.rtt;
-var loss = results.fractionalLoss;
-var throughput = results.throughput;
+  }
+  else {
+    console.log("Pre-call test could not be run");
+  }
 
 }
 ```
 
-The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available.
+The `csPreCallTestResultsCallback` function is set with the on() functionality. The callback is invoked when the pre-call test results are available. The pre-call test measures the media connectivity, Round Trip Time, Fractional Loss, and Throughput against callstats.io TURN servers. You can use “status” to check if the pre-call test is running, it will return `success` or `failure`. The pre-call test is running as long as the callback is not fired. The pre-call test might return partial results if the tests are interrupted or the call begins before the pre-call test is completed. You can disable pre-call test by adding "disablePrecalltest" in `configParams`.
 
 Params  | Type | Description
 -----------  | -------- | ----------
 `mediaConnectivity`  | boolean | True or False.
-`rtt`  | float | Round Trip Time in ms. Returns a "null" if there are no results.
-`fractionalLoss`   | float | Fractional Loss [0-1]. Returns a "null" if there are no results.
-`throughput`  | float| Throughput in kbps. Returns a "null" if there are no results.
+`rtt`  | float | Round Trip Time in ms. Returns "null" if there is no result.
+`fractionalLoss`   | float | Fractional Loss [0-1]. Returns "null" if there is no result.
+`throughput`  | float| Throughput in kbps. Returns "null" if there is no result.
 
 ## The default configuration callback
 
