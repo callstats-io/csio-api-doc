@@ -37,7 +37,8 @@ userId.aliasName = "superman";
 ```javascript
 var configParams = {
   disableBeforeUnloadHandler: true, // disables callstats.js's window.onbeforeunload parameter.
-  applicationVersion: "app_version" // Application version specified by the developer.
+  applicationVersion: "app_version", // Application version specified by the developer.
+  disablePrecalltest: true // disables the pre-call test, it is enabled by default
 };
 ```
 
@@ -220,7 +221,7 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
-`eventName`  | Required | String | The allowed values are "defaultConfig", "recommendedConfig", "error", and "stats".
+`eventName`  | Required | String | The allowed values are "preCallTestResults", "defaultConfig", "recommendedConfig", "error", and "stats".
 `csEventCallback`  | Required | Callback | The callback asynchronously provides new event data whenever it is available.
 
 ```javascript
