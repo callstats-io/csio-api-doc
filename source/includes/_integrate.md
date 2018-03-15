@@ -37,7 +37,7 @@ After the user is authenticated with the origin server (or when the page loads),
 
 For more information on callbacks, please refer to [csInitCallback](#csinitcallback) and [csStatsCallback](#csstatscallback). Also have a look at [step 8](#step-8-optional-handling-stats-from-statscallback) for csStatsCallback data handling.
 
-ALTERNATIVE: If you are interested in using the third-party authentication, see the details described in a [later section](/#third-party-authentication).
+ALTERNATIVE: If you are interested in using the third-party authentication, see the details described in a [later section](#third-party-authentication).
 
 ## Step 3: addNewFabric()
 
