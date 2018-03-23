@@ -48,6 +48,7 @@ It provides developers a method to enable or disable certain features or functio
 -----------  | -------- | ----------
 `disableBeforeUnloadHandler` | No | by default the value is `false`.
 `applicationVersion` | No | String of maximum length **30 characters**.
+`disablePrecalltest` | No | by default the value is `false`.
 
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
