@@ -145,5 +145,5 @@ After the user is authenticated with the origin server (or when the page loads),
   });
 ```
 
-You can use following code as an example to generate JWT for authenticating the endpoint. 
+You can use following code as an example to generate JWT for authenticating the endpoint.. 
 
