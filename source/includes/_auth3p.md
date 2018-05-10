@@ -145,5 +145,38 @@ After the user is authenticated with the origin server (or when the page loads),
   });
 ```
 
-You can use following code as an example to generate JWT for authenticating the endpoint.. 
+You can use the following code as an example to generate JWT for authenticating the endpoint.
 
+To correctly generate a token keep in mind the following:
+
+1. Create a token header as a JSON:
+```
+{
+  "typ":"JWT", 
+  "alg":"HS256"
+}
+```
+
+2. Create a token payload as a JSON in the format: 
+```
+{ 
+  "userID": x, 
+  "appID": a, 
+  "keyID": k, 
+  "iat": i, 
+  "nbf": n, 
+  "exp": e, 
+  "jti": j 
+}
+```  
+   <br/>
+   Please note that `iat` , `nbf`, `exp`, `jti` are optional, but it is recommended to use it, otherwise the token won't be timed out. 
+   More informationn can be found in [RFC 7519](https://tools.ietf.org/html/rfc7519).
+
+3. Encode with base64 stringified header and payload and join them with dot. 
+   In pseudo code something like:
+   <br/>
+   `token = base64Encode(JSON.stringify(header)) + "." + base64Encode(JSON.stringify(payload))`
+
+4. Sign your token with HMAC SHA-256 algorithm
+5. Use signed token "code" in the message that you send in the authentication request
