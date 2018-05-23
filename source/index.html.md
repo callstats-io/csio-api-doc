@@ -33,5 +33,5 @@ The callstats.io's Javascript client library enables performance monitoring feat
 
 `callstats.js` uses [semantic versioning](http://semver.org). The latest version is in the changelog. However, programmatically the version can be fetched by invoking `callstats.version`.
 
-
+Please subscribe to our [callstats-dev](https://groups.google.com/forum/#!forum/callstats-dev) mailing list to get notifications and changelogs of new `callstats.js` releases.
 
