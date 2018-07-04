@@ -54,11 +54,51 @@ var csStatsCallback = function (stats) {
   }
 }
 
+
+// JSON description of the metrics structure
+
+"stats": {
+  "connectionState":, // one of: online, offline
+  "fabricState":, // one of: initialising, established, disrupted.
+
+  // New csStatsCallback format
+
+  "mediaStreamTracks": [
+    [0]: {
+      "remoteUserID":, // associated during the addNewFabric() API
+      "reportType":,   // either inbound or outbound
+
+      // data here is parsed from the local and remote SDP
+      "cname":,      // CNAME associated with the SSRC
+      "msid":,       // mediastreamID associated with the SSRC
+      "mediaType":,  // either video or audio
+
+      // provided in associateMstWithUserID() API
+      "usageLabel":,         //usage information
+      "associatedVideoTag":, // video tag that renders the media
+
+
+      "bitrate":,             // interval bitrate in kbps
+      "packetRate":,          // packets per second
+      "fractionLoss":,        // interval fractional loss
+      "packetLossPercentage":,// Packet loss in percentage   
+      "jitter":,              // interval jitter in ms
+      "averageJitter":,       // Average jitter
+      "rtt":,                 // round-trip time in ms.
+      "averageRTT":,          // Average round-trip time in ms
+      "quality":,             // interval quality as per boundary conditions.
+      "audioInputLevel":,     // audio input level
+      "audioOutputLevel":,    // audio output level
+
+    },
+  ...
+  ]
+};
 ```
 
 The csStatsCallback function can either be given as a parameter to the initialize() call, or set separately with the on() functionality.
 
-The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/)
+The `csStatsCallback()` will be called by the callstats.js for each PeerConnection independently at regular intervals. By default the interval is set as 10 seconds to make sure we do not overwhelm the app with too many messages. For more information, please check out our blog on [`csStatsCallback()`] (http://www.callstats.io/2015/08/24/statscallback-webrtc-media-quality-status/) 
 
 ## The pre-call test results callback
 
