@@ -60,6 +60,7 @@ var csStatsCallback = function (stats) {
 "stats": {
   "connectionState":, // one of: online, offline
   "fabricState":, // one of: initialising, established, disrupted.
+  "conferenceURL":, // URL of the conference 
 
   // New csStatsCallback format
 
