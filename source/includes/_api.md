@@ -273,7 +273,7 @@ wifistats = {
 ```javascript
 callstats.startPrecallTests(iceServers, interval);
 
-Var iceServers = [
+var iceServers = [
    {
       "urls":[
          "turns:taas.callstats.io:443?transport=udp",
@@ -337,7 +337,7 @@ function connectionRecommendation(){
 <aside class="error">
 <ul>
 
-<li> interval default value is 60 seconds, if not provided. The minimum interval is 30 seconds, and the recommended interval is 300 seconds</li>
+<li> Interval default value is 60 seconds, if not provided. The minimum interval is 30 seconds, and the recommended interval is 300 seconds</li>
 
 </ul>
 </aside>
