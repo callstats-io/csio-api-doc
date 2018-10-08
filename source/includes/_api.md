@@ -281,49 +281,19 @@ var iceServers = [
          "turn:taas.callstats.io:80?transport=udp",
          "turn:taas.callstats.io:80?transport=tcp"
       ],
-      "username":"1533817892:56411-JplbM5BrBdsQV5oVT0ti0iNgyiE=",
-      "credential":"0jrIgAA0JnjZ/GynYpXD5g="
+      "username":,
+      "credential":,
       "label": "turn2"
    },
    {
       "urls":[
         "turn:turn-server-1.dialogue.io:3478"
       ],
-      "username":"test",
-      "credential":"1234",
+      "username":,
+      "credential":,
       "label": "turn2"
     }
 ];
-
-
-function connectionRecommendation(){
-   "aggregatedStats":[
-      {
-         "provider":"turn1",
-         "roundTripTime":46.3499755859375,
-         "jitter":143.7728006389737,
-         "fractionLost":0,
-         "throughput":4160.657588552875
-      },
-      {
-         "provider":"turn2",
-         "roundTripTime":106.699951171875,
-         "jitter":1547.3617393722136,
-         "fractionLost":0.5257732840987372,
-         "throughput":584.6231721117872
-      }
-   ],
-   "providerRanking":[
-      {
-         "provider":"turn1",
-         "acceptable":true
-      },
-      {
-         "provider":"turn2",
-         "acceptable":false
-      }
-   ]
-}
 
 ```
 - This API can be used to make precall tests continuously as per the interval given by the customers. The results of the precall test will be given in the `preCallTestResults` callback. Once we run precall tests on all the turn credentials provided, the connection recommendation is provided in the `connectionRecommendation` callback.
