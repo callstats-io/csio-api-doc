@@ -258,6 +258,16 @@ wifistats = {
 
 ```
 
+## API return values
+
+- All the callstats.io APIs returns an object containing `status` and `msg`.
+
+   Params   | Description
+----------- | ----------
+`status`   | Returns one of the values defined in [callStatsAPIReturnStatus](#enumeration-of-callstatsapireturnstatus)
+`msg`   | Returns the corresponding message related to the `status`.
+
+
 ## callstats.startPrecallTests()
 
 ```javascript
@@ -338,13 +348,3 @@ function connectionRecommendation(){
 callstats.stopPrecallTests();
 ```
 - This API to stop the precall tests started using the API `startPrecallTests()`
-
-
-## API return values
-
-- All the callstats.io APIs returns an object containing `status` and `msg`.
-
-   Params   | Description
------------ | ----------
-`status`   | Returns one of the values defined in [callStatsAPIReturnStatus](#enumeration-of-callstatsapireturnstatus)
-`msg`   | Returns the corresponding message related to the `status`.
