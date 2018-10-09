@@ -206,6 +206,9 @@ The csErrorCallback function is set with the on() functionality. The callback ca
 ## The connection recommendation callback
 
 ```javascript
+//Usage
+callstats.on("connectionRecommendation", csConnectionRecommendationCallback);
+
 function csConnectionRecommendationCallback(){
    "aggregatedStats":[
       {
@@ -236,7 +239,7 @@ function csConnectionRecommendationCallback(){
 }
 ```
 
-The `csConnectionRecommendationCallback` function gives the statistics measured, and the ranking of the TURN servers provided in the callstats.startPrecallTests API. 
+The `csConnectionRecommendationCallback` function is set with the on() functionality. The callback is invoked when the precall tests are finished for all the TURN credentials given in 'startPrecallTest'. Connection recommendation gives the statistics measured, and the ranking of the TURN servers provided. 
 
 Params  | Type | Description
 -----------  | -------- | ----------
