@@ -201,3 +201,51 @@ noInboundAudioOnlyFabric: 'noInboundAudioOnlyFabric'
 ```
 
 The csErrorCallback function is set with the on() functionality. The callback can be invoked anytime and returns the error type and event message. The event message contains the attributes for that error type.
+
+
+## The connection recommendation callback
+
+```javascript
+//Usage
+callstats.on("connectionRecommendation", csConnectionRecommendationCallback);
+
+function csConnectionRecommendationCallback(){
+   "aggregatedStats":[
+      {
+         "provider":"turn1",
+         "roundTripTime":46.3499755859375,
+         "jitter":143.7728006389737,
+         "fractionLost":0,
+         "throughput":4160.657588552875
+      },
+      {
+         "provider":"turn2",
+         "roundTripTime":106.699951171875,
+         "jitter":1547.3617393722136,
+         "fractionLost":0.5257732840987372,
+         "throughput":584.6231721117872
+      }
+   ],
+   "providerRanking":[
+      {
+         "provider":"turn1",
+         "acceptable":true
+      },
+      {
+         "provider":"turn2",
+         "acceptable":false
+      }
+   ]
+}
+```
+
+The `csConnectionRecommendationCallback` function is set with the on() functionality. The callback is invoked when the precall tests are finished for all the TURN credentials given in 'startPrecallTest'. Connection recommendation gives the statistics measured, and the ranking of the TURN servers provided. 
+
+Params  | Type | Description
+-----------  | -------- | ----------
+`provider`  | string | TURN label.
+`roundTripTime`  | float | Round Trip Time in ms. Returns "null" if there is no result.
+`jitter` | float | jitter in ms
+`fractionLost`   | float | Fractional Loss [0-1]. Returns "null" if there is no result.
+`throughput`  | float| Throughput in kbps. Returns "null" if there is no result.
+`acceptable` | boolean | True or False

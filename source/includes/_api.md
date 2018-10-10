@@ -222,7 +222,7 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
-`eventName`  | Required | String | The allowed values are "preCallTestResults", "defaultConfig", "recommendedConfig", "error", and "stats".
+`eventName`  | Required | String | The allowed values are "preCallTestResults", "defaultConfig", "recommendedConfig", "connectionRecommendation", "error", and "stats".
 `csEventCallback`  | Required | Callback | The callback asynchronously provides new event data whenever it is available.
 
 ```javascript
@@ -266,3 +266,55 @@ wifistats = {
 ----------- | ----------
 `status`   | Returns one of the values defined in [callStatsAPIReturnStatus](#enumeration-of-callstatsapireturnstatus)
 `msg`   | Returns the corresponding message related to the `status`.
+
+
+## callstats.startPrecallTests()
+
+```javascript
+callstats.startPrecallTests(iceServers, interval);
+
+var iceServers = [
+   {
+      "urls":[
+         "turns:taas.callstats.io:443?transport=udp",
+         "turns:taas.callstats.io:443?transport=tcp",
+         "turn:taas.callstats.io:80?transport=udp",
+         "turn:taas.callstats.io:80?transport=tcp"
+      ],
+      "username":,
+      "credential":,
+      "label": "turn2"
+   },
+   {
+      "urls":[
+        "turn:turn-server-1.dialogue.io:3478"
+      ],
+      "username":,
+      "credential":,
+      "label": "turn2"
+    }
+];
+
+```
+- This API can be used to make precall tests continuously as per the interval given by the customers. The results of the precall test will be given in the `preCallTestResults` callback. Once we run precall tests on all the turn credentials provided, the connection recommendation is provided in the `connectionRecommendation` callback.
+
+
+  Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ----------
+`iceServers`  | Required | Object | TURN Server list provided by customer.
+`interval`  | Required | Integer | Indicates the delay (in seconds) after the tests to restart the pre call tests.
+
+<aside class="error">
+<ul>
+
+<li> Interval default value is 60 seconds, if not provided. The minimum interval is 30 seconds, and the recommended interval is 300 seconds</li>
+
+</ul>
+</aside>
+
+
+## callstats.stopPrecallTests()
+```javascript
+callstats.stopPrecallTests();
+```
+- This API to stop the precall tests started using the API `startPrecallTests()`
