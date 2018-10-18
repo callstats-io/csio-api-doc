@@ -91,7 +91,7 @@ var fabricAttributes = {
 
 <aside class="error">
 <ul>
-
+<li>To notify callstats.io of a fabric termination, the sendFabricEvent() must be called with the value `fabricTerminated` in `fabricEvent`</li>
 <li> fabricAttributes is optional and default value is peer and sendrecv</li>
 
 </ul>
