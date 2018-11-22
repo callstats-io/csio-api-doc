@@ -38,7 +38,8 @@ userId.aliasName = "superman";
 var configParams = {
   disableBeforeUnloadHandler: true, // disables callstats.js's window.onbeforeunload parameter.
   applicationVersion: "app_version", // Application version specified by the developer.
-  disablePrecalltest: true // disables the pre-call test, it is enabled by default
+  disablePrecalltest: true // disables the pre-call test, it is enabled by default.
+  siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
 };
 ```
 
@@ -49,6 +50,7 @@ It provides developers a method to enable or disable certain features or functio
 `disableBeforeUnloadHandler` | No | by default the value is `false`.
 `applicationVersion` | No | String of maximum length **30 characters**.
 `disablePrecalltest` | No | by default the value is `false`.
+`siteID` | No | String (256 bytes).
 
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
