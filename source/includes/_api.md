@@ -322,14 +322,16 @@ callstats.stopPrecallTests();
 - This API to stop the precall tests started using the API `startPrecallTests()`
 
 ## callstats.sendCallDetails()
+
 ```javascript
-callstats.sendCallDetails(pc, conferenceID, callAttributes)
+callstats.sendCallDetails(pc, conferenceID, callAttributes);
 var callAttributes = {
-  callType://inbound or outbound or monitoring
-  role://agent or participant or manager
+  callType:,  //inbound or outbound or monitoring
+  role:       //agent or participant or manager
 }
 ```
 - This API reports the call details from Contact Centers to Callstats backend.
+
  Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
 `pc`  | Required | Object | RTCPeerConnection associated with this connection.
