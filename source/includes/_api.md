@@ -324,7 +324,7 @@ callstats.stopPrecallTests();
 ## callstats.sendCallDetails()
 ```javascript
 callstats.sendCallDetails(pc, conferenceID, callAttributes)
-callAttributes{
+var callAttributes = {
   callType://inbound or outbound or monitoring
   role://agent or participant or manager
 }
