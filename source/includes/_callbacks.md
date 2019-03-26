@@ -35,8 +35,8 @@ var callstats = new callstats();
 callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
 
 var reportType = {
-  inbound: 'inbound',
-  outbound: 'outbound'
+  inbound: 'inbound-rtp',
+  outbound: 'outbound-rtp'
 };
 
 // callback function to receive the stats
@@ -67,7 +67,7 @@ var csStatsCallback = function (stats) {
   "mediaStreamTracks": [
     [0]: {
       "remoteUserID":, // associated during the addNewFabric() API
-      "reportType":,   // either inbound or outbound
+      "statsType":,   // inbound-rtp, outbound-rtp, remote-inbound-rtp, remote-outbound-rtp
 
       // data here is parsed from the local and remote SDP
       "cname":,      // CNAME associated with the SSRC
