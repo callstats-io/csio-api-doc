@@ -180,29 +180,6 @@ The `csRecommendedConfigurationCallback` function is set with the on() functiona
 </ul>
 </aside>
 
-## The error callback
-
-```javascript
-
-//Usage
-callstats.on("error", csErrorCallback);
-
-var csErrorCallback(errorType, eventMsg) {
-// We have one errorType which is oneWayMedia
-// eventMsg Object contains mediaType, SSRC, disruptionType
-// mediaType ['audio', 'video']
-// disruptionType
-var _disruptionsType = {
-noAudioInMultiplexFabric: 'noAudioInMultiplexFabric',
-noOutboundAudioOnlyFabric: 'noOutboundAudioOnlyFabric',
-noInboundAudioOnlyFabric: 'noInboundAudioOnlyFabric'
-};
-}
-```
-
-The csErrorCallback function is set with the on() functionality. The callback can be invoked anytime and returns the error type and event message. The event message contains the attributes for that error type.
-
-
 ## The connection recommendation callback
 
 ```javascript
