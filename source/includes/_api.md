@@ -224,7 +224,7 @@ callstats.reportUserIDChange(pcObject, conferenceID, newUserID, callstats.userID
 
    Params  |  Argument | Type | Description
 -----------  | ----------- | -------- | ----------
-`eventName`  | Required | String | The allowed values are "preCallTestResults", "defaultConfig", "recommendedConfig", "connectionRecommendation", "error", and "stats".
+`eventName`  | Required | String | The allowed values are "preCallTestResults", "defaultConfig", "recommendedConfig", "connectionRecommendation", "error", "mediaDisruption" and "stats".
 `csEventCallback`  | Required | Callback | The callback asynchronously provides new event data whenever it is available.
 
 ```javascript
