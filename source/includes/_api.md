@@ -352,3 +352,8 @@ callstats.getTurnCredentials(appId, appSecret)
   });
 ```
 - This API will fetch the TURN credentials from callstats.io without enabling callstats.io monitoring. This is an on-demand feature, please contact sales@callstats.io for enabling this feature. 
+
+ Params  |  Argument | Type | Description
+-----------  | ----------- | -------- | ----------
+appId | Required | String | Application ID is obtained from callstats.io
+appSecret | Required | String | Application secret is obtained from callstats.io.
