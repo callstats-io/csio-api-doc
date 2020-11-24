@@ -40,6 +40,7 @@ var configParams = {
   applicationVersion: "app_version", // Application version specified by the developer.
   disablePrecalltest: true // disables the pre-call test, it is enabled by default.
   siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
+  applicationIDs: applicationIDs, // applicationIDs object, contains application related IDs.
 };
 ```
 
@@ -55,6 +56,32 @@ It provides developers a method to enable or disable certain features or functio
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
 </aside>
+
+### JSON for applicationIDs
+
+```javascript
+var applicationIDs = {
+  customerID: "customer ID",
+  pbxID: "PBX ID",
+  pbxExtensionID: "PBX Extension ID",
+  fqExtensionID: "fully qualified extension ID",
+  meetingsName: "Meeting Name",
+  tenantID: "Tenant ID",
+  productName: "Product Name",
+  serverName: "Server Name",
+};
+```
+
+  Keys  |  Required | Description
+-----------  | -------- | ----------
+`customerID` | No | String (256 bytes).
+`pbxID` | No | String (256 bytes).
+`pbxExtensionID` | No | String (256 bytes).
+`fqExtensionID` | No | String (256 bytes).
+`meetingsName` | No | String (256 bytes).
+`tenantID` | No | String (256 bytes).
+`productName` | No | String (256 bytes).
+`serverName` | No | String (256 bytes).
 
 ## callstats.initialize() with third party authentication
 
