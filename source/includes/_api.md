@@ -12,14 +12,14 @@ localUserID.aliasName = "superman";
 
 ```javascript
 var additionalIDs = {
-  customerID: "customer ID",
-  pbxID: "PBX ID",
-  pbxExtensionID: "PBX Extension ID",
-  fqExtensionID: "fully qualified extension ID",
-  meetingsName: "Meeting Name",
-  tenantID: "Tenant ID",
-  productName: "Product Name",
-  serverName: "Server Name",
+  customerID: "Customer Identifier. Example, walmart.",
+  tenantID: "Tenant Identifier. Example, monster.",
+  productName: "Product Name. Example, Jitsi.",
+  meetingsName: "Meeting Name. Example, Jitsi loves callstats.",
+  serverName: "Server/MiddleBox Name. Example, jvb-prod-us-east-mlkncws12.",
+  pbxID: "PBX Identifier. Example, walmart.",
+  pbxExtensionID: "PBX Extension Identifier. Example, 5625.",
+  fqExtensionID: "Fully qualified Extension Identifier. Example, +71 (US) +5625.",
 };
 ```
 
@@ -78,14 +78,14 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 
   Keys  |  Required | Description
 -----------  | -------- | ----------
-`customerID` | No | String (256 bytes).
-`pbxID` | No | String (256 bytes).
-`pbxExtensionID` | No | String (256 bytes).
-`fqExtensionID` | No | String (256 bytes).
-`meetingsName` | No | String (256 bytes).
-`tenantID` | No | String (256 bytes).
-`productName` | No | String (256 bytes).
-`serverName` | No | String (256 bytes).
+`customerID` | No | String (256 bytes) Example, walmart.
+`tenantID` | No | String (256 bytes) Example, monster.
+`productName` | No | String (256 bytes) Example, jitsi.
+`meetingsName` | No | String (256 bytes) Example, jitsi loves callstats.
+`serverName` | No | String (256 bytes) Example, jvb-prod-us-east-mlkncws12.
+`pbxID` | No | String (256 bytes) Example, walmart.
+`pbxExtensionID` | No | String (256 bytes) Example, 5625.
+`fqExtensionID` | No | String (256 bytes) Example, +71 (US) +5625.
 
 ## callstats.initialize() with third party authentication
 
