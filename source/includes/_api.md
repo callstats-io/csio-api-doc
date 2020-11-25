@@ -5,6 +5,36 @@
 ## callstats.initialize() with app secret
 
 ```javascript
+var localUserID = {};
+localUserID.userName = "Clark Kent";
+localUserID.aliasName = "superman";
+```
+
+```javascript
+var additionalIDs = {
+  customerID: "customer ID",
+  pbxID: "PBX ID",
+  pbxExtensionID: "PBX Extension ID",
+  fqExtensionID: "fully qualified extension ID",
+  meetingsName: "Meeting Name",
+  tenantID: "Tenant ID",
+  productName: "Product Name",
+  serverName: "Server Name",
+};
+```
+
+```javascript
+var configParams = {
+  disableBeforeUnloadHandler: true, // disables callstats.js's window.onbeforeunload parameter.
+  applicationVersion: "app_version", // Application version specified by the developer.
+  disablePrecalltest: true // disables the pre-call test, it is enabled by default.
+  siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
+  additionalIDs: additionalIDs, // additionalIDs object, contains application related IDs.
+  collectLegacyStats: true //enables the collection of legacy stats in chrome browser
+};
+```
+
+```javascript
 callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallback, configParams);
 ```
 
@@ -21,11 +51,6 @@ callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallb
 
 In some cases, customers want to provide the actual username in addition to the alias to callstats.io. Since callstats.js version 3.14, it accepts userID both as a String or an object. Section on [generating userID](#generating-userid-conferenceid-and-jwt) provides more guidelines on choosing a `localUserID`.
 
-```javascript
-var userId = {};
-userId.userName = "Clark Kent";
-userId.aliasName = "superman";
-```
 
   Keys  |  Required | Description
 -----------  | -------- | ----------
@@ -33,17 +58,6 @@ userId.aliasName = "superman";
 `aliasName` | Yes | String of maximum length **128 characters**.
 
 ### JSON for configParams
-
-```javascript
-var configParams = {
-  disableBeforeUnloadHandler: true, // disables callstats.js's window.onbeforeunload parameter.
-  applicationVersion: "app_version", // Application version specified by the developer.
-  disablePrecalltest: true // disables the pre-call test, it is enabled by default.
-  siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
-  applicationIDs: applicationIDs, // applicationIDs object, contains application related IDs.
-  collectLegacyStats: true //enables the collection of legacy stats in chrome browser
-};
-```
 
 It provides developers a method to enable or disable certain features or functions within the `callstats.js` library. It is a javascript object with the following OPTIONAL key-value pairs. They are:
 
@@ -54,26 +68,13 @@ It provides developers a method to enable or disable certain features or functio
 `disablePrecalltest` | No | by default the value is `false`.
 `siteID` | No | String (256 bytes).
 `collectLegacyStats` | No | by default the value is `true`.
-`applicationIDs` | No | JSON object.
+`additionalIDs` | No | JSON object.
 
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
 </aside>
 
-### JSON for applicationIDs
-
-```javascript
-var applicationIDs = {
-  customerID: "customer ID",
-  pbxID: "PBX ID",
-  pbxExtensionID: "PBX Extension ID",
-  fqExtensionID: "fully qualified extension ID",
-  meetingsName: "Meeting Name",
-  tenantID: "Tenant ID",
-  productName: "Product Name",
-  serverName: "Server Name",
-};
-```
+### JSON for additionalIDs
 
   Keys  |  Required | Description
 -----------  | -------- | ----------
