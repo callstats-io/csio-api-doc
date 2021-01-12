@@ -20,6 +20,7 @@ var additionalIDs = {
   pbxID: "PBX Identifier. Example, walmart.",
   pbxExtensionID: "PBX Extension Identifier. Example, 5625.",
   fqExtensionID: "Fully qualified Extension Identifier. Example, +71 (US) +5625.",
+  sessionID: "Session Identifier. Example, session-12-34",
 };
 ```
 
@@ -31,6 +32,7 @@ var configParams = {
   siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
   additionalIDs: additionalIDs, // additionalIDs object, contains application related IDs.
   collectLegacyStats: true //enables the collection of legacy stats in chrome browser
+  collectIP: true //enables the collection localIP address
 };
 ```
 
@@ -69,6 +71,7 @@ It provides developers a method to enable or disable certain features or functio
 `siteID` | No | String (256 bytes).
 `collectLegacyStats` | No | by default the value is `true`.
 `additionalIDs` | No | JSON object.
+`collectIP` | No | by default the value is `true`.
 
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
@@ -86,6 +89,7 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 `pbxID` | No | String (256 bytes) Example, walmart.
 `pbxExtensionID` | No | String (256 bytes) Example, 5625.
 `fqExtensionID` | No | String (256 bytes) Example, +71 (US) +5625.
+`sessionID` | No | String (256 bytes) Example, session-12-34.
 
 ## callstats.initialize() with third party authentication
 
