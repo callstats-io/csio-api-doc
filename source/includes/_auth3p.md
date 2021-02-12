@@ -70,9 +70,9 @@ Token supports following claims:
     };
   }
 
-  function csInitCallback (err, msg) {
-    console.log("Initializing Status: err="+err+" msg="+msg);
-  }
+function csInitCallback(status, msg) {
+  console.log("Status: " + status + " Msg= " + msg ); }
+}
 
   //userID is generated or given by the origin server
   callstats.initialize(AppID, exampleTokenGenerator(initialToken), userID, csInitCallback, csStatsCallback, configParams);

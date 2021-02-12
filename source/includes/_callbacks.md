@@ -18,8 +18,8 @@ The WebRTC application can provide callback functions to callstats.js which are 
 var callstats = new callstats();
 callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
 
-function csInitCallback(csError, csErrMsg) {
-  console.log("Status: errCode= " + csError + " errMsg= " + csErrMsg ); }
+function csInitCallback(status, msg) {
+  console.log("Status: " + status + " Msg= " + msg ); }
 }
 ```
 
