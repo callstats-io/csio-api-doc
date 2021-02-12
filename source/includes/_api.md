@@ -28,11 +28,12 @@ var additionalIDs = {
 var configParams = {
   disableBeforeUnloadHandler: true, // disables callstats.js's window.onbeforeunload parameter.
   applicationVersion: "app_version", // Application version specified by the developer.
-  disablePrecalltest: true // disables the pre-call test, it is enabled by default.
+  disablePrecalltest: true // disables the pre-call test.
   siteID: "siteID", // The name/ID of the site/campus from where the call/pre-call test is made.
   additionalIDs: additionalIDs, // additionalIDs object, contains application related IDs.
   collectLegacyStats: true //enables the collection of legacy stats in chrome browser
   collectIP: true //enables the collection localIP address
+  cdnAuth: true //Uses the CDN based URL for contacting Authentication Servers. 
 };
 ```
 
@@ -72,6 +73,7 @@ It provides developers a method to enable or disable certain features or functio
 `collectLegacyStats` | No | by default the value is `true`.
 `additionalIDs` | No | JSON object.
 `collectIP` | No | by default the value is `true`.
+`cdnAuth` | No | by default the value is `true`.
 
 <aside class="error">
 Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window.onbeforeunload` handler, and you will need to send the fabricTerminated event for each active PeerConnection. See more details on `fabricTerminated` [event](#step-5-optional-sendfabricevent)
