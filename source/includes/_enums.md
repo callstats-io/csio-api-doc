@@ -70,19 +70,14 @@ Name  | Description
 `local` | Set the localUserID
 `remote`| Set the remoteUserID
 
-## csError Types
+## csStatus Types
 
 Name  | Description
 ---------  | -----------
-`httpError`  | HTTP error, the `csErrMsg` string is reported by the browser.
+`httpError`  | HTTP error.
 `authError`  | Authentication failed, AppID or AppSecret is incorrect.
-`wsChannelFailure`  | Connection failed, could not connect to callstats.io over WebSockets.
-`csProtoError`  | The client library is sending malformed messages.
 `success`  | The back-end has accepted the request and the endpoint is authenticated, or capable of sending measurement data.
-`appConnectivityError`  | The connectivity checks for given _PeerConnection_ object failed, i.e., iceConnectionState is set to disconnected.
 `tokenGenerationError` | Application could not generate the JWT.
-
-- `csProtoError`: This may happen due to a change in the metrics or formatting of the current statistics API implemented by the browser.
 
 ## Enumeration of callStatsAPIReturnStatus
 
