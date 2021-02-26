@@ -18,14 +18,14 @@ The WebRTC application can provide callback functions to callstats.js which are 
 var callstats = new callstats();
 callstats.initialize(AppID, AppSecret, localUserId, csInitCallback, csStatsCallback);
 
-function csInitCallback(csError, csErrMsg) {
-  console.log("Status: errCode= " + csError + " errMsg= " + csErrMsg ); }
+function csInitCallback (csStatus, csMsg) {
+  console.log("Initializing Status: "+csStatus+" msg: "+csMsg);
 }
 ```
 
 The csInitCallback function is given as a parameter to the `initialize()` call. To report different success and failure cases, which can occur during `initialize()` or sending measurements to callstats.io. The callback takes the form of:
 
-csError and csErrMsg are of type _String_. `csErrMsg` is a descriptive error returned by callstats.io.
+csStatus and csMsg are of type _String_. `csMsg` is a descriptive error returned by callstats.io.
 
 ## The stats callback
 

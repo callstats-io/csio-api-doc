@@ -8,6 +8,7 @@
 var localUserID = {};
 localUserID.userName = "Clark Kent";
 localUserID.aliasName = "superman";
+localUserID.loginID = "superman@dc"
 ```
 
 ```javascript
@@ -45,7 +46,7 @@ callstats.initialize(AppID, AppSecret, localUserID, csInitCallback, csStatsCallb
 `AppID`  | Required | String | Application ID is obtained from callstats.io.
 `AppSecret`  | Required | String | Application secret is obtained from callstats.io.
 `localUserID`  | Required | String (128 bytes) or Object | it is provided by the developer and MUST NOT be null or empty.
-`csInitCallback`  | Optional | Callback | asynchronously reports failure or success of the protocol messages.
+`csInitCallback`  | Optional | Callback | asynchronously reports status of the protocol messages.
 `csStatsCallback`  | Optional | Callback | asynchronously reports the conference statistics.
 `configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library.
 
@@ -58,6 +59,7 @@ In some cases, customers want to provide the actual username in addition to the 
 -----------  | -------- | ----------
 `userName` | Yes | Strint of maximum lenth **128 characters**.
 `aliasName` | Yes | String of maximum length **128 characters**.
+`loginID` | No | String of maximum length **128 characters**.
 
 ### JSON for configParams
 
@@ -100,7 +102,7 @@ Setting `disableBeforeUnloadHandler` to `true` disengages callstats.js's `window
 `AppID`  | Required | String | Application ID is obtained from callstats.io.
 `tokenGenerator`  | Required | callback | Callback to generate token.
 `localUserID`  | Required | String (128 bytes) or Object | it is provided by the developer and MUST NOT be null or empty.
-`csInitCallback`  | Optional | callback | asynchronously reports failure or success of the protocol messages.
+`csInitCallback`  | Optional | callback | asynchronously reports status of the protocol messages.
 `csStatsCallback`  | Optional | callback | asynchronously reports the conference statistics.  
 `configParams`  | Optional | JSON| it is the set of parameters to enable/disable certain features in the library.
 

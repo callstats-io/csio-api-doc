@@ -70,8 +70,8 @@ Token supports following claims:
     };
   }
 
-  function csInitCallback (err, msg) {
-    console.log("Initializing Status: err="+err+" msg="+msg);
+  function csInitCallback (csStatus, csMsg) {
+    console.log("Initializing Status: "+csStatus+" msg: "+csMsg);
   }
 
   //userID is generated or given by the origin server
