@@ -135,6 +135,143 @@ Params  | Type | Description
 `fractionalLoss`   | float | Fractional Loss [0-1]. Returns "null" if there is no result.
 `throughput`  | float| Throughput in kbps. Returns "null" if there is no result.
 
+## The media disruption callback
+
+
+
+```javascript
+//Usage
+callstats.on("mediaDisruption", csMediaDisruptionCallback);
+
+function csMediaDisruptionCallback(disruption) {
+	const { type, payload } = disruption;
+	const mediaType = payload.mediaType;
+	const ssrc = payload.ssrc;
+	const disruptionType = payload.disruptionType;
+}
+```
+
+The `csMediaDisruptionCallback` function is set with the on() functionality. The callback is invoked when a disruption happen due to network, hardware failuer or other reasons.
+
+* *Currently the library detects following disruptions*
+    
+    * One way media disruption
+    * Circuit breaker disruption
+    
+    
+
+### One way media disruption callback
+
+```javascript
+//One way media disruption
+callstats.on("mediaDisruption", csMediaDisruptionCallback);
+
+function csMediaDisruptionCallback(disruption) {
+	const { type, payload } = disruption;
+	const mediaType = payload.mediaType;
+	const ssrc = payload.ssrc;
+	const disruptionType = payload.disruptionType;
+}
+
+/*
+- One way media starts 
+ { type: "oneWayMediaStart", 
+   payload : {   
+      mediaType: "audio",
+      ssrc: "203518918",
+      disruptionType: "outbound",
+   }}
+- One way media stops
+ { type: "oneWayMediaStop", 
+   payload : {
+      mediaType: "audio",
+      ssrc: "203518918",
+      disruptionType: "inbound",
+   }}
+*/
+```
+
+
+
+
+| Params           | Type   | Description                                                  |
+| ---------------- | ------ | ------------------------------------------------------------ |
+| `type`           | string | The type of the disruption. Can be `oneWayMediaStart` or `oneWayMediaStop` |
+| `mediaType`      | string | The type of media. Can be `audio`, `video` or `screen`       |
+| `ssrc`           | string | The contributing `ssrc`                                      |
+| `disruptionType` | string | One way media disruption type. Can be `inbound` or `outbound` |
+
+One way audio is where one party can hear the other, and the other party cannot hear because of streaming/hardware/other issues that stopping either the outbound or inbound audio from reaching the receiving party.
+
+* *The list of one way media disruption that we are currently detecting*
+    
+    * One way media starts
+    * One way media stops
+    
+    
+
+### Circuit breaker disruption callback
+
+```javascript
+//Circuit breaker disruption
+callstats.on("mediaDisruption", csMediaDisruptionCallback);
+
+function csMediaDisruptionCallback(disruption) {
+	const { type, payload } = disruption;
+	const ssrc = payload.ssrc;
+	const disruptionType = payload.disruptionType;
+}
+
+/*
+- RTCP Timeout 
+	{ type: "circuitBreaker"
+  	payload: {
+     disruptionType: "RTCPTimeout",
+     ssrc: "1149619233"
+    }}
+- Media Timeout
+	{ type: "circuitBreaker"
+  	payload: {
+     disruptionType: "mediaTimeout",
+     ssrc: "1149619233"
+		}}
+- Media Usability
+	{ type: "circuitBreaker"
+  	payload: {
+  	 disruptionType: "mediaUsability",
+     ssrc: "1149619233"
+		}}
+- Congestion 
+	{ type: "circuitBreaker"
+ 	  payload: {
+     disruptionType: "congestion",
+     ssrc: "1149619233"
+    }}
+*/
+```
+
+
+
+
+
+
+| Params           | Type   | Description                                                  |
+| ---------------- | ------ | ------------------------------------------------------------ |
+| `type`           | string | The type of the disruption. Can be `circuitBreaker`          |
+| `ssrc`           | string | The contributing `ssrc`                                      |
+| `disruptionType` | string | One way media disruption type. Can be `RTCPTimeout`, `mediaTimeout`, `mediaUsability` and `congestion` |
+
+Circuit breaker events are going to fire under the conditions where network congestion leads to deterioration of multimedia experience.
+
+* *The list of circuit breakers that we are currently detecting*
+    * RTCP Timeout
+    * Media Timeout
+    * Congestion
+    * Media Usability
+
+
+
+
 ## The default configuration callback
 
 ```javascript
